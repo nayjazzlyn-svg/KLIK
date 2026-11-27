@@ -1,0 +1,24 @@
+{
+  "name": "klik-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "eslint js firestore.rules"
+  },
+  "dependencies": {
+    "@firebase/eslint-plugin-security-rules": "^0.0.2",
+    "docx": "^9.16.0",
+    "eslint": "^10.15.0",
+    "firebase": "^13.4.0",
+    "vite": "^8.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0"
+  }
+}

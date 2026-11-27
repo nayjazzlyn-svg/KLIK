@@ -1,0 +1,53 @@
+import firebaseRulesPlugin from '@firebase/eslint-plugin-security-rules';
+
+export default [
+  {
+    ignores: ['dist/**', 'node_modules/**'],
+  },
+  firebaseRulesPlugin.configs['flat/recommended'],
+  {
+    files: ['js/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        crypto: 'readonly',
+        TextEncoder: 'readonly',
+        URL: 'readonly',
+        Blob: 'readonly',
+        DOMParser: 'readonly',
+        Node: 'readonly',
+        Element: 'readonly',
+        HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLTextAreaElement: 'readonly',
+        HTMLSelectElement: 'readonly',
+        Event: 'readonly',
+        CustomEvent: 'readonly',
+        MutationObserver: 'readonly',
+        console: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        structuredClone: 'readonly',
+        fetch: 'readonly',
+      },
+    },
+    rules: {
+      'no-undef': 'error',
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'no-redeclare': 'error',
+      'no-dupe-keys': 'error',
+      'no-constant-condition': 'warn',
+      'eqeqeq': ['warn', 'smart'],
+    },
+  },
+];
