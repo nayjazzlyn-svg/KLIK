@@ -46,14 +46,15 @@ export function renderLoginScreen(container) {
     <div class="klik-auth-page">
       <div class="klik-auth-container">
         <div class="klik-auth-brand">
-          <div class="klik-logo-badge klik-logo-badge--lg">K</div>
+          <div class="klik-logo-badge klik-logo-badge--lg">
+  <img src="public/klik-logo.svg" alt="KLIK Logo">
+</div>
           <h1>KLIK</h1>
           <p>Semua Aktivitas Kelas, Satu Klik.</p>
         </div>
 
-        ${
-          authUi.mode === 'login'
-            ? `
+        ${authUi.mode === 'login'
+      ? `
           <div class="klik-auth-card">
             <div class="klik-auth-card-head">
               <h2>Masuk ke Workspace Kelas</h2>
@@ -63,13 +64,12 @@ export function renderLoginScreen(container) {
               </p>
             </div>
 
-            ${
-              displayedError
-                ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
-                    displayedError
-                  )}</div>`
-                : ''
-            }
+            ${displayedError
+        ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
+          displayedError
+        )}</div>`
+        : ''
+      }
 
             <form id="klik-auth-login-form" class="klik-stack-sm">
               <div>
@@ -105,20 +105,18 @@ export function renderLoginScreen(container) {
                     type="button"
                     id="klik-toggle-pw-eye"
                     class="klik-input-eye-btn"
-                    aria-label="${
-                      authUi.showPassword
-                        ? 'Sembunyikan password'
-                        : 'Lihat password'
-                    }"
+                    aria-label="${authUi.showPassword
+        ? 'Sembunyikan password'
+        : 'Lihat password'
+      }"
                   >
                     ${icon(authUi.showPassword ? 'eyeOff' : 'eye', 16)}
                   </button>
                 </div>
               </div>
 
-              ${
-                authUi.showForgotHelp
-                  ? `
+              ${authUi.showForgotHelp
+        ? `
                 <div class="klik-help-box">
                   <p class="klik-help-box-title">Bantuan Reset Password</p>
                   <p style="margin-top:4px;">
@@ -129,12 +127,11 @@ export function renderLoginScreen(container) {
                   </p>
                 </div>
               `
-                  : ''
-              }
+        : ''
+      }
 
-              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${
-                authUi.submitting ? 'disabled' : ''
-              }>
+              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${authUi.submitting ? 'disabled' : ''
+      }>
                 <span>${authUi.submitting ? 'Memverifikasi...' : 'Masuk'}</span>
                 ${icon('arrowRight', 16)}
               </button>
@@ -159,8 +156,8 @@ export function renderLoginScreen(container) {
             </div>
           </div>
         `
-            : authUi.mode === 'activate'
-            ? `
+      : authUi.mode === 'activate'
+        ? `
           <div class="klik-auth-card">
             <button type="button" id="klik-back-login" class="klik-auth-back-btn">
               ${icon('arrowLeft', 14)}
@@ -175,13 +172,12 @@ export function renderLoginScreen(container) {
               </p>
             </div>
 
-            ${
-              displayedError
-                ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
-                    displayedError
-                  )}</div>`
-                : ''
-            }
+            ${displayedError
+          ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
+            displayedError
+          )}</div>`
+          : ''
+        }
 
             <form id="klik-auth-activate-form" class="klik-stack-sm">
               <div class="klik-grid-form-2">
@@ -235,11 +231,10 @@ export function renderLoginScreen(container) {
                     type="button"
                     id="klik-toggle-pw-eye"
                     class="klik-input-eye-btn"
-                    aria-label="${
-                      authUi.showPassword
-                        ? 'Sembunyikan password'
-                        : 'Lihat password'
-                    }"
+                    aria-label="${authUi.showPassword
+          ? 'Sembunyikan password'
+          : 'Lihat password'
+        }"
                   >
                     ${icon(authUi.showPassword ? 'eyeOff' : 'eye', 16)}
                   </button>
@@ -258,14 +253,12 @@ export function renderLoginScreen(container) {
                 />
               </div>
 
-              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${
-                authUi.submitting ? 'disabled' : ''
-              }>
-                <span>${
-                  authUi.submitting
-                    ? 'Mengaktifkan...'
-                    : 'Aktifkan Akun & Masuk'
-                }</span>
+              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${authUi.submitting ? 'disabled' : ''
+        }>
+                <span>${authUi.submitting
+          ? 'Mengaktifkan...'
+          : 'Aktifkan Akun & Masuk'
+        }</span>
                 ${icon('arrowRight', 16)}
               </button>
             </form>
@@ -275,7 +268,7 @@ export function renderLoginScreen(container) {
             </p>
           </div>
         `
-            : `
+        : `
           <div class="klik-auth-card">
             <button type="button" id="klik-back-login" class="klik-auth-back-btn">
               ${icon('arrowLeft', 14)}
@@ -290,13 +283,12 @@ export function renderLoginScreen(container) {
               </p>
             </div>
 
-            ${
-              displayedError
-                ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
-                    displayedError
-                  )}</div>`
-                : ''
-            }
+            ${displayedError
+          ? `<div role="alert" class="klik-alert klik-alert--error" style="margin-bottom:16px;">${escapeHtml(
+            displayedError
+          )}</div>`
+          : ''
+        }
 
             <form id="klik-auth-create-form" class="klik-stack-sm">
               <div class="klik-grid-form-2">
@@ -394,35 +386,31 @@ export function renderLoginScreen(container) {
               </div>
 
               <label style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-muted);cursor:pointer;">
-                <input type="checkbox" id="klik-create-show-pw" ${
-                  authUi.showPassword ? 'checked' : ''
-                } style="accent-color:var(--emerald);" />
+                <input type="checkbox" id="klik-create-show-pw" ${authUi.showPassword ? 'checked' : ''
+        } style="accent-color:var(--emerald);" />
                 <span>Tampilkan password</span>
               </label>
 
               <label class="klik-subpanel" style="display:flex;align-items:flex-start;gap:10px;padding:10px 12px;font-size:12px;color:var(--text-secondary);cursor:pointer;">
-                <input type="checkbox" id="klik-create-seed" ${
-                  authUi.seedSampleData ? 'checked' : ''
-                } style="margin-top:2px;accent-color:var(--emerald);" />
+                <input type="checkbox" id="klik-create-seed" ${authUi.seedSampleData ? 'checked' : ''
+        } style="margin-top:2px;accent-color:var(--emerald);" />
                 <span style="line-height:1.5;">
                   Isi contoh mata kuliah, jadwal &amp; tugas awal agar workspace siap langsung dieksplorasi
                 </span>
               </label>
 
-              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${
-                authUi.submitting ? 'disabled' : ''
-              }>
-                <span>${
-                  authUi.submitting
-                    ? 'Membuat Workspace...'
-                    : 'Buat Kelas & Jadi Komting'
-                }</span>
+              <button type="submit" id="klik-auth-submit" class="klik-btn klik-btn--primary klik-btn--lg" ${authUi.submitting ? 'disabled' : ''
+        }>
+                <span>${authUi.submitting
+          ? 'Membuat Workspace...'
+          : 'Buat Kelas & Jadi Komting'
+        }</span>
                 ${icon('arrowRight', 16)}
               </button>
             </form>
           </div>
         `
-        }
+    }
       </div>
     </div>
   `;
