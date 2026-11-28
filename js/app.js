@@ -80,7 +80,7 @@ function renderSidebarBody(isMobile) {
         <div style="min-width:0;display:${isCompact ? 'none' : 'block'};">
           <div class="klik-sidebar-brand-row">
             <img
-  src="public/klik-logo.svg"
+  src="/KLIK/klik-logo.svg.png"
   alt="KLIK"
   class="klik-logo-badge klik-logo-badge--sm"
 />
