@@ -14,6 +14,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   getDocFromServer,
   getFirestore,
   onSnapshot,
@@ -1291,6 +1292,18 @@ export async function saveUserAvatar(uid, avatarId) {
   }
 }
 
+export async function fsAddCourse(classId, input) {
+  const id = makeSafeId('course');
+  const path = `classes/${classId}/courses/${id}`;
+  try {
+    await setDoc(doc(db, 'classes', classId, 'courses', id), {
+      id, classId, code: clampStr(input.code, 40), name: clampStr(input.name, 150),
+      lecturer: clampStr(input.lecturer, 150), credits: Number(input.credits || 0),
+      createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+    });
+  } catch (error) { handleFirestoreError(error, OperationType.CREATE, path); throw error; }
+}
+
 export async function fsUpsertCourseCollection(
   classId,
   courseId,
@@ -1832,6 +1845,71 @@ export async function fsDeleteGroupTask(classId, groupTaskId) {
   const path = `classes/${classId}/groupTasks/${groupTaskId}`;
   try {
     await deleteDoc(doc(db, 'classes', classId, 'groupTasks', groupTaskId));
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+  }
+}
+
+export async function fsDeleteGroupActivity(classId, activityId) {
+  const path = `classes/${classId}/groupActivities/${activityId}`;
+
+  try {
+    const groupsRef = collection(db, 'classes', classId, 'groups');
+    const membersRef = collection(db, 'classes', classId, 'groupMembers');
+    const tasksRef = collection(db, 'classes', classId, 'groupTasks');
+    const completionsRef = collection(
+      db,
+      'classes',
+      classId,
+      'groupTaskCompletions'
+    );
+
+    const [groupsSnap, membersSnap, tasksSnap, completionsSnap] =
+      await Promise.all([
+        getDocs(groupsRef),
+        getDocs(membersRef),
+        getDocs(tasksRef),
+        getDocs(completionsRef),
+      ]);
+
+    const groupIds = new Set(
+      groupsSnap.docs
+        .filter((d) => d.data().activityId === activityId)
+        .map((d) => d.id)
+    );
+
+    const taskIds = new Set(
+      tasksSnap.docs
+        .filter((d) => d.data().activityId === activityId)
+        .map((d) => d.id)
+    );
+
+    const docsToDelete = [
+      ...groupsSnap.docs.filter((d) => groupIds.has(d.id)),
+      ...membersSnap.docs.filter(
+        (d) => d.data().activityId === activityId
+      ),
+      ...tasksSnap.docs.filter((d) => taskIds.has(d.id)),
+      ...completionsSnap.docs.filter((d) => {
+        const data = d.data();
+        return (
+          groupIds.has(data.groupId) ||
+          taskIds.has(data.groupTaskId)
+        );
+      }),
+      doc(db, 'classes', classId, 'groupActivities', activityId),
+    ];
+
+    for (let i = 0; i < docsToDelete.length; i += 450) {
+      const batch = writeBatch(db);
+      const chunk = docsToDelete.slice(i, i + 450);
+
+      chunk.forEach((documentRef) => {
+        batch.delete(documentRef.ref ?? documentRef);
+      });
+
+      await batch.commit();
+    }
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, path);
   }

@@ -3,6 +3,7 @@ import {
   changePassword,
   deletePendingRosterEntry,
   getCourses,
+  addCourse,
   getCurrentUser,
   getEffectiveRole,
   getStoreState,
@@ -275,6 +276,20 @@ export function mountRichTextEditor(
   return {
     getHtml: () => (editor ? editor.innerHTML : ''),
   };
+}
+
+// Course creation modal for class admins
+export function openAddCourseModal() {
+  openModal({ id: 'course-add', title: 'Tambah Mata Kuliah', subtitle: 'Daftarkan mata kuliah agar dapat dipilih pada Jadwal Rutin.', size: 'md',
+    bodyHtml: `<form id="klik-course-add-form" class="klik-stack-sm">
+      <div><label class="klik-label">Kode Mata Kuliah</label><input name="code" class="klik-input" maxlength="40" required placeholder="Contoh: IF203" /></div>
+      <div><label class="klik-label">Nama Mata Kuliah</label><input name="name" class="klik-input" maxlength="150" required placeholder="Nama mata kuliah" /></div>
+      <div><label class="klik-label">Dosen (opsional)</label><input name="lecturer" class="klik-input" maxlength="150" placeholder="Nama dosen" /></div>
+      <div><label class="klik-label">SKS</label><input name="credits" type="number" min="0" max="10" class="klik-input" value="2" /></div>
+      <div id="klik-course-add-error" style="color:var(--danger-text);font-size:12px;"></div>
+      <button type="submit" class="klik-btn klik-btn--primary">Simpan Mata Kuliah</button></form>`,
+    onMount: (root) => { const form=root.querySelector('#klik-course-add-form'); form?.addEventListener('submit', async (e)=>{ e.preventDefault(); const err=root.querySelector('#klik-course-add-error'); const btn=form.querySelector('button[type=submit]'); btn.disabled=true; const result=await addCourse({code:form.elements.code.value.trim(),name:form.elements.name.value.trim(),lecturer:form.elements.lecturer.value.trim(),credits:form.elements.credits.value}); if(result.ok) closeModal(); else {err.textContent=result.error;btn.disabled=false;} }); }
+  });
 }
 
 // ------------------------------------------------------------------

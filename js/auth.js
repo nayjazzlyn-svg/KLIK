@@ -47,7 +47,11 @@ export function renderLoginScreen(container) {
       <div class="klik-auth-container">
         <div class="klik-auth-brand">
           <div class="klik-logo-badge klik-logo-badge--lg">
+<<<<<<< HEAD
   <img src="public/klik-logo.svg" alt="KLIK Logo">
+=======
+  <img src="public/klik-logo.svg.png" alt="KLIK Logo">
+>>>>>>> 23d144b (Update KLIK features and fixes)
 </div>
           <h1>KLIK</h1>
           <p>Semua Aktivitas Kelas, Satu Klik.</p>

@@ -11,6 +11,7 @@ import {
   createGroupActivity,
   createGroupTask,
   deleteGroupTask,
+  deleteGroupActivity,
   finalizeGroup,
   getCourseById,
   getCurrentUser,
@@ -60,13 +61,12 @@ function openCreateActivityModal(container, defaultCourseId = null) {
           <label class="klik-label">Mata Kuliah</label>
           <select name="courseId" class="klik-select">
             ${viewState.courses
-              .map(
-                (c) =>
-                  `<option value="${escapeHtml(c.id)}" ${
-                    c.id === initialCourse ? 'selected' : ''
-                  }>${escapeHtml(c.name)} (${escapeHtml(c.code)})</option>`
-              )
-              .join('')}
+        .map(
+          (c) =>
+            `<option value="${escapeHtml(c.id)}" ${c.id === initialCourse ? 'selected' : ''
+            }>${escapeHtml(c.name)} (${escapeHtml(c.code)})</option>`
+        )
+        .join('')}
           </select>
         </div>
 
@@ -227,8 +227,8 @@ function openGroupTaskDetailModal(gt, course) {
   const effUrl = gt.overrideCollectionUrl
     ? sanitizeExternalUrl(gt.overrideCollectionUrl)
     : course?.collection
-    ? sanitizeExternalUrl(course.collection.url)
-    : null;
+      ? sanitizeExternalUrl(course.collection.url)
+      : null;
   const effLabel = gt.overrideCollectionUrl
     ? gt.overrideCollectionLabel || gt.overrideCollectionUrl
     : course?.collection?.label;
@@ -241,31 +241,28 @@ function openGroupTaskDetailModal(gt, course) {
     size: 'lg',
     bodyHtml: `
       <div class="klik-stack-sm">
-        ${
-          safeHtml
-            ? `<div class="klik-richtext klik-subpanel" style="font-size:14px;line-height:1.6;color:var(--text-body);">${safeHtml}</div>`
-            : `<p style="font-size:12px;color:var(--text-dim);">Tidak ada deskripsi tambahan.</p>`
-        }
+        ${safeHtml
+        ? `<div class="klik-richtext klik-subpanel" style="font-size:14px;line-height:1.6;color:var(--text-body);">${safeHtml}</div>`
+        : `<p style="font-size:12px;color:var(--text-dim);">Tidak ada deskripsi tambahan.</p>`
+      }
 
         <div class="klik-subpanel">
           <p class="text-muted" style="font-size:12px;font-weight:500;">
-            Link Pengumpulan ${
-              gt.overrideCollectionUrl
-                ? '(Override Tugas Kelompok)'
-                : '(Diwariskan dari Mata Kuliah)'
-            }
+            Link Pengumpulan ${gt.overrideCollectionUrl
+        ? '(Override Tugas Kelompok)'
+        : '(Diwariskan dari Mata Kuliah)'
+      }
           </p>
-          ${
-            effUrl
-              ? `<a href="${escapeHtml(
-                  effUrl
-                )}" target="_blank" rel="noreferrer" class="break-all" style="margin-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--emerald-text);">
+          ${effUrl
+        ? `<a href="${escapeHtml(
+          effUrl
+        )}" target="_blank" rel="noreferrer" class="break-all" style="margin-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--emerald-text);">
                   ${icon('link2', 14)}
                   <span>${escapeHtml(effLabel)}</span>
                   ${icon('externalLink', 12)}
                 </a>`
-              : `<p style="margin-top:4px;font-size:12px;color:var(--text-dim);">Belum ada destinasi pengumpulan yang ditetapkan.</p>`
-          }
+        : `<p style="margin-top:4px;font-size:12px;color:var(--text-dim);">Belum ada destinasi pengumpulan yang ditetapkan.</p>`
+      }
         </div>
       </div>
     `,
@@ -308,9 +305,8 @@ function openGroupTaskFormModal(activity, course, editingGt = null) {
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <label class="klik-label" style="margin-bottom:0;">Deadline</label>
             <label style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;">
-              <input type="checkbox" id="klik-gt-has-dl" ${
-                hasDeadline ? 'checked' : ''
-              } style="accent-color:var(--emerald);" />
+              <input type="checkbox" id="klik-gt-has-dl" ${hasDeadline ? 'checked' : ''
+      } style="accent-color:var(--emerald);" />
               <span>Gunakan deadline</span>
             </label>
           </div>
@@ -319,13 +315,11 @@ function openGroupTaskFormModal(activity, course, editingGt = null) {
             name="deadline"
             id="klik-gt-dl-input"
             value="${escapeHtml(initialDl)}"
-            class="klik-input klik-input--sm mono ${
-              hasDeadline ? '' : 'hidden'
-            }"
+            class="klik-input klik-input--sm mono ${hasDeadline ? '' : 'hidden'
+      }"
           />
-          <div id="klik-gt-no-dl" class="${
-            hasDeadline ? 'hidden' : ''
-          }" style="border-radius:6px;border:1px solid var(--border-subtle);background:rgba(19,21,25,0.6);padding:8px 12px;font-size:12px;color:var(--text-dim);">
+          <div id="klik-gt-no-dl" class="${hasDeadline ? 'hidden' : ''
+      }" style="border-radius:6px;border:1px solid var(--border-subtle);background:rgba(19,21,25,0.6);padding:8px 12px;font-size:12px;color:var(--text-dim);">
             Tanpa deadline
           </div>
         </div>
@@ -339,19 +333,17 @@ function openGroupTaskFormModal(activity, course, editingGt = null) {
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
             <span style="font-size:11px;color:var(--text-muted);">
               Destinasi pengumpulan diwariskan dari ${escapeHtml(
-                course?.name ?? 'mata kuliah'
-              )}.
+        course?.name ?? 'mata kuliah'
+      )}.
             </span>
             <label style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-secondary);cursor:pointer;flex-shrink:0;">
-              <input type="checkbox" id="klik-gt-override-cb" ${
-                useOverride ? 'checked' : ''
-              } style="accent-color:var(--emerald);" />
+              <input type="checkbox" id="klik-gt-override-cb" ${useOverride ? 'checked' : ''
+      } style="accent-color:var(--emerald);" />
               <span>Override destinasi</span>
             </label>
           </div>
-          <div id="klik-gt-override-fields" class="klik-grid-form-2-resp ${
-            useOverride ? '' : 'hidden'
-          }" style="margin-top:10px;">
+          <div id="klik-gt-override-fields" class="klik-grid-form-2-resp ${useOverride ? '' : 'hidden'
+      }" style="margin-top:10px;">
             <input
               type="text"
               name="overrideLabel"
@@ -535,53 +527,48 @@ export function renderGroupsView(container) {
             <button type="button" id="klik-grp-back-course" class="klik-auth-back-btn" style="margin-bottom:0;">
               ${icon('arrowLeft', 14)}
               <span>Kembali ke ${escapeHtml(
-                course?.name ?? 'Daftar Aktivitas'
-              )}</span>
+      course?.name ?? 'Daftar Aktivitas'
+    )}</span>
             </button>
 
             <div style="margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;">
               <h1 style="font-size:20px;font-weight:600;letter-spacing:-0.02em;color:var(--text-primary);">
                 ${escapeHtml(activityLabel)}
               </h1>
-              ${
-                isAllFinal
-                  ? `<span class="klik-tag klik-tag--neutral">${icon(
-                      'archive',
-                      12
-                    )}<span>Arsip (Semua Final)</span></span>`
-                  : ''
-              }
+              ${isAllFinal
+        ? `<span class="klik-tag klik-tag--neutral">${icon(
+          'archive',
+          12
+        )}<span>Arsip (Semua Final)</span></span>`
+        : ''
+      }
             </div>
 
             <div style="margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:12px;color:var(--text-muted);">
               <span>${escapeHtml(course?.name ?? '')}</span>
               <span aria-hidden="true">·</span>
-              <span class="mono tabular-nums">${
-                activeActivity.totalParticipants
-              } peserta · ${activeActivity.groupCount} kelompok</span>
+              <span class="mono tabular-nums">${activeActivity.totalParticipants
+      } peserta · ${activeActivity.groupCount} kelompok</span>
               <span aria-hidden="true">·</span>
               <span class="text-dim" style="display:inline-flex;align-items:center;gap:4px;">
                 ${icon('lock', 12)}
-                ${
-                  capPlan.largeGroupQuota > 0
-                    ? `${capPlan.largeGroupQuota}× maks ${capPlan.largeCap}, ${capPlan.smallGroupQuota}× maks ${capPlan.smallCap} (dinamis)`
-                    : `Maks ${capPlan.smallCap} per kelompok`
-                }
+                ${capPlan.largeGroupQuota > 0
+        ? `${capPlan.largeGroupQuota}× maks ${capPlan.largeCap}, ${capPlan.smallGroupQuota}× maks ${capPlan.smallCap} (dinamis)`
+        : `Maks ${capPlan.smallCap} per kelompok`
+      }
               </span>
             </div>
           </div>
 
-          ${
-            isAdmin
-              ? `
+          ${isAdmin
+        ? `
             <div class="klik-toolbar-group">
               <button type="button" id="klik-grp-add-task" class="klik-btn klik-btn--secondary">
                 ${icon('plus', 14)}
                 <span>Tambah Tugas Kelompok</span>
               </button>
-              ${
-                isAllFinal && course
-                  ? `
+              ${isAllFinal && course
+          ? `
                 <button type="button" id="klik-grp-export-xlsx" class="klik-btn klik-btn--primary">
                   ${icon('fileSpreadsheet', 14)}
                   <span>Export .xlsx</span>
@@ -591,30 +578,28 @@ export function renderGroupsView(container) {
                   <span>Export .docx</span>
                 </button>
               `
-                  : `
+          : `
                 <span class="klik-btn klik-btn--secondary" style="opacity:0.7;cursor:default;color:var(--text-dim);" title="Export Excel/Word hanya aktif setelah seluruh kelompok pada aktivitas ini berstatus Final.">
                   ${icon('download', 14)}
                   <span>Export terkunci (belum semua final)</span>
                 </span>
               `
-              }
+        }
             </div>
           `
-              : ''
-          }
+        : ''
+      }
         </div>
 
-        ${
+        ${groupsUi.actionError
+        ? `<div class="klik-alert klik-alert--error">${escapeHtml(
           groupsUi.actionError
-            ? `<div class="klik-alert klik-alert--error">${escapeHtml(
-                groupsUi.actionError
-              )}</div>`
-            : ''
-        }
+        )}</div>`
+        : ''
+      }
 
-        ${
-          activityTasks.length > 0
-            ? `
+        ${activityTasks.length > 0
+        ? `
           <section class="klik-card" style="padding:16px;">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;">
               <h2 style="font-size:12px;font-weight:600;color:var(--text-primary);">Daftar Tugas Kelompok Aktivitas Ini</h2>
@@ -622,42 +607,41 @@ export function renderGroupsView(container) {
             </div>
             <div class="klik-divide-list">
               ${activityTasks
-                .map((gt) => {
-                  const effUrl = gt.overrideCollectionUrl
-                    ? sanitizeExternalUrl(gt.overrideCollectionUrl)
-                    : course?.collection
-                    ? sanitizeExternalUrl(course.collection.url)
-                    : null;
-                  const effLabel = gt.overrideCollectionUrl
-                    ? gt.overrideCollectionLabel || 'Link Khusus'
-                    : course?.collection?.label;
-                  const doneCount = activityGroups.filter((g) =>
-                    isGroupTaskCompleted(gt.id, g.id)
-                  ).length;
+          .map((gt) => {
+            const effUrl = gt.overrideCollectionUrl
+              ? sanitizeExternalUrl(gt.overrideCollectionUrl)
+              : course?.collection
+                ? sanitizeExternalUrl(course.collection.url)
+                : null;
+            const effLabel = gt.overrideCollectionUrl
+              ? gt.overrideCollectionLabel || 'Link Khusus'
+              : course?.collection?.label;
+            const doneCount = activityGroups.filter((g) =>
+              isGroupTaskCompleted(gt.id, g.id)
+            ).length;
 
-                  return `
+            return `
                     <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;">
                       <div style="min-width:0;">
                         <button type="button" data-gt-detail="${escapeHtml(
-                          gt.id
-                        )}" style="font-size:14px;font-weight:500;color:var(--text-primary);text-align:left;cursor:pointer;">
+              gt.id
+            )}" style="font-size:14px;font-weight:500;color:var(--text-primary);text-align:left;cursor:pointer;">
                           ${escapeHtml(gt.title)}
                         </button>
                         <div style="margin-top:2px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);">
                           <span class="mono tabular-nums" style="font-size:11px;">${escapeHtml(
-                            formatDateTimeLabel(gt.deadline)
-                          )}</span>
-                          ${
-                            effUrl
-                              ? `<span aria-hidden="true">·</span>
+              formatDateTimeLabel(gt.deadline)
+            )}</span>
+                          ${effUrl
+                ? `<span aria-hidden="true">·</span>
                                  <a href="${escapeHtml(
-                                   effUrl
-                                 )}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:4px;color:var(--emerald-text);">
+                  effUrl
+                )}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:4px;color:var(--emerald-text);">
                                    <span>${escapeHtml(effLabel)}</span>
                                    ${icon('externalLink', 12)}
                                  </a>`
-                              : ''
-                          }
+                : ''
+              }
                         </div>
                       </div>
 
@@ -665,69 +649,68 @@ export function renderGroupsView(container) {
                         <span class="mono tabular-nums text-muted" style="font-size:12px;">
                           ${doneCount}/${activityGroups.length} kelompok selesai
                         </span>
-                        ${
-                          isAdmin
-                            ? `
+                        ${isAdmin
+                ? `
                           <div style="display:flex;align-items:center;gap:4px;">
                             <button type="button" data-gt-edit="${escapeHtml(
-                              gt.id
-                            )}" class="klik-icon-btn" title="Edit tugas kelompok">
+                  gt.id
+                )}" class="klik-icon-btn" title="Edit tugas kelompok">
                               ${icon('pencil', 14)}
                             </button>
                             <button type="button" data-gt-del="${escapeHtml(
-                              gt.id
-                            )}" class="klik-icon-btn klik-icon-btn--danger" title="Hapus tugas kelompok">
+                  gt.id
+                )}" class="klik-icon-btn klik-icon-btn--danger" title="Hapus tugas kelompok">
                               ${icon('trash2', 14)}
                             </button>
                           </div>
                         `
-                            : ''
-                        }
+                : ''
+              }
                       </div>
                     </div>
                   `;
-                })
-                .join('')}
+          })
+          .join('')}
             </div>
           </section>
         `
-            : ''
-        }
+        : ''
+      }
 
         <!-- Groups Grid -->
         <div class="klik-groups-grid">
           ${activityGroups
-            .map((group) => {
-              const members = activityMembers.filter(
-                (m) => m.groupId === group.id
-              );
-              const maxCap = getGroupEffectiveMaxCapacity(
-                group,
-                activityGroups,
-                activityMembers,
-                activeActivity
-              );
-              const isFull = members.length >= maxCap;
-              const isMyGroup = myGroup?.id === group.id;
-              const lockedInOtherFinal = Boolean(
-                myGroup && myGroup.id !== group.id && myGroup.isFinal
-              );
-              const canJoin =
-                !group.isFinal && !isFull && !isMyGroup && !lockedInOtherFinal;
-              const canChecklist = isAdmin || isMyGroup;
+        .map((group) => {
+          const members = activityMembers.filter(
+            (m) => m.groupId === group.id
+          );
+          const maxCap = getGroupEffectiveMaxCapacity(
+            group,
+            activityGroups,
+            activityMembers,
+            activeActivity
+          );
+          const isFull = members.length >= maxCap;
+          const isMyGroup = myGroup?.id === group.id;
+          const lockedInOtherFinal = Boolean(
+            myGroup && myGroup.id !== group.id && myGroup.isFinal
+          );
+          const canJoin =
+            !group.isFinal && !isFull && !isMyGroup && !lockedInOtherFinal;
+          const canChecklist = isAdmin || isMyGroup;
 
-              const statusLabel = group.isFinal
-                ? 'Final'
-                : isFull
-                ? 'Penuh'
-                : 'Terbuka';
-              const badgeClass = group.isFinal
-                ? 'klik-tag--neutral'
-                : isFull
-                ? 'klik-tag--amber'
-                : 'klik-tag--emerald';
+          const statusLabel = group.isFinal
+            ? 'Final'
+            : isFull
+              ? 'Penuh'
+              : 'Terbuka';
+          const badgeClass = group.isFinal
+            ? 'klik-tag--neutral'
+            : isFull
+              ? 'klik-tag--amber'
+              : 'klik-tag--emerald';
 
-              return `
+          return `
                 <div class="klik-group-card ${isMyGroup ? 'is-mine' : ''}">
                   <div class="klik-group-card-head">
                     <div>
@@ -735,11 +718,10 @@ export function renderGroupsView(container) {
                         <h3 style="font-size:14px;font-weight:600;color:var(--text-primary);">
                           Kelompok ${group.groupNumber}
                         </h3>
-                        ${
-                          isMyGroup
-                            ? `<span class="text-emerald" style="font-size:11px;font-weight:500;">· Kelompok Saya</span>`
-                            : ''
-                        }
+                        ${isMyGroup
+              ? `<span class="text-emerald" style="font-size:11px;font-weight:500;">· Kelompok Saya</span>`
+              : ''
+            }
                       </div>
                       <p class="mono tabular-nums text-muted" style="margin-top:2px;font-size:12px;">
                         Kapasitas ${members.length} / ${maxCap}
@@ -751,142 +733,127 @@ export function renderGroupsView(container) {
                   <div class="klik-group-card-body">
                     <div>
                       <p class="text-muted" style="font-size:11px;font-weight:500;margin-bottom:8px;">Anggota</p>
-                      ${
-                        members.length === 0
-                          ? `<p style="font-size:12px;color:var(--text-dim);padding:8px 0;">Belum ada anggota di kelompok ini.</p>`
-                          : `
+                      ${members.length === 0
+              ? `<p style="font-size:12px;color:var(--text-dim);padding:8px 0;">Belum ada anggota di kelompok ini.</p>`
+              : `
                         <ul class="klik-divide-list" style="list-style:none;padding:0;">
                           ${members
-                            .map(
-                              (m) => `
+                .map(
+                  (m) => `
                             <li style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;font-size:12px;">
-                              <span class="truncate" style="color:${
-                                m.userId === currentUser.id
-                                  ? 'var(--emerald-soft)'
-                                  : 'var(--text-body)'
-                              };font-weight:${
-                                m.userId === currentUser.id ? '500' : '400'
-                              };">
+                              <span class="truncate" style="color:${m.userId === currentUser.id
+                      ? 'var(--emerald-soft)'
+                      : 'var(--text-body)'
+                    };font-weight:${m.userId === currentUser.id ? '500' : '400'
+                    };">
                                 ${escapeHtml(m.fullName)}
                               </span>
-                              ${
-                                m.isExternal
-                                  ? `<span class="text-amber" style="flex-shrink:0;font-size:11px;font-weight:500;">Eksternal</span>`
-                                  : `<span class="mono tabular-nums text-dim" style="flex-shrink:0;font-size:11px;">${escapeHtml(
-                                      m.nim
-                                    )}</span>`
-                              }
+                              ${m.isExternal
+                      ? `<span class="text-amber" style="flex-shrink:0;font-size:11px;font-weight:500;">Eksternal</span>`
+                      : `<span class="mono tabular-nums text-dim" style="flex-shrink:0;font-size:11px;">${escapeHtml(
+                        m.nim
+                      )}</span>`
+                    }
                             </li>
                           `
-                            )
-                            .join('')}
+                )
+                .join('')}
                         </ul>
                       `
-                      }
+            }
                     </div>
 
-                    ${
-                      activityTasks.length > 0
-                        ? `
+                    ${activityTasks.length > 0
+              ? `
                       <div style="border-top:1px solid var(--border-subtle);padding-top:12px;">
                         <p class="text-muted" style="font-size:11px;font-weight:500;margin-bottom:8px;">Tugas Kelompok</p>
                         <div style="display:flex;flex-direction:column;gap:6px;">
                           ${activityTasks
-                            .map((gt) => {
-                              const done = isGroupTaskCompleted(
-                                gt.id,
-                                group.id
-                              );
-                              return `
+                .map((gt) => {
+                  const done = isGroupTaskCompleted(
+                    gt.id,
+                    group.id
+                  );
+                  return `
                                 <div style="display:flex;align-items:flex-start;gap:10px;font-size:12px;">
                                   <button
                                     type="button"
                                     ${canChecklist ? '' : 'disabled'}
                                     data-gt-check="${escapeHtml(gt.id)}"
                                     data-gt-check-grp="${escapeHtml(group.id)}"
-                                    title="${
-                                      canChecklist
-                                        ? 'Ubah status selesai kelompok ini'
-                                        : 'Hanya anggota kelompok ini atau Komting yang dapat checklist'
-                                    }"
-                                    class="klik-checkbox-box klik-checkbox-box--sm ${
-                                      done ? 'is-checked' : ''
-                                    }"
+                                    title="${canChecklist
+                      ? 'Ubah status selesai kelompok ini'
+                      : 'Hanya anggota kelompok ini atau Komting yang dapat checklist'
+                    }"
+                                    class="klik-checkbox-box klik-checkbox-box--sm ${done ? 'is-checked' : ''
+                    }"
                                   >
                                     ${done ? icon('check', 12, '', 2.5) : ''}
                                   </button>
                                   <button
                                     type="button"
                                     data-gt-detail="${escapeHtml(gt.id)}"
-                                    style="text-align:left;line-height:1.35;cursor:pointer;color:${
-                                      done
-                                        ? 'var(--text-dim)'
-                                        : 'var(--text-secondary)'
-                                    };${
-                                done ? 'text-decoration:line-through;' : ''
-                              }"
+                                    style="text-align:left;line-height:1.35;cursor:pointer;color:${done
+                      ? 'var(--text-dim)'
+                      : 'var(--text-secondary)'
+                    };${done ? 'text-decoration:line-through;' : ''
+                    }"
                                   >
                                     ${escapeHtml(gt.title)}
                                   </button>
                                 </div>
                               `;
-                            })
-                            .join('')}
+                })
+                .join('')}
                         </div>
                       </div>
                     `
-                        : ''
-                    }
+              : ''
+            }
                   </div>
 
-                  ${
-                    !group.isFinal
-                      ? `
+                  ${!group.isFinal
+              ? `
                     <div class="klik-group-card-foot">
                       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-                        ${
-                          canJoin
-                            ? `<button type="button" data-grp-join="${escapeHtml(
-                                group.id
-                              )}" class="klik-btn klik-btn--primary klik-btn--sm">${
-                                myGroup ? 'Pindah ke Sini' : 'Gabung'
-                              }</button>`
-                            : ''
-                        }
-                        ${
-                          isMyGroup
-                            ? `<button type="button" data-grp-leave="${escapeHtml(
-                                group.id
-                              )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">Keluar</button>`
-                            : ''
-                        }
-                        ${
-                          isAdmin && !isFull
-                            ? `<button type="button" data-grp-ext="${escapeHtml(
-                                group.id
-                              )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">
+                        ${canJoin
+                ? `<button type="button" data-grp-join="${escapeHtml(
+                  group.id
+                )}" class="klik-btn klik-btn--primary klik-btn--sm">${myGroup ? 'Pindah ke Sini' : 'Gabung'
+                }</button>`
+                : ''
+              }
+                        ${isMyGroup
+                ? `<button type="button" data-grp-leave="${escapeHtml(
+                  group.id
+                )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">Keluar</button>`
+                : ''
+              }
+                        ${isAdmin && !isFull
+                ? `<button type="button" data-grp-ext="${escapeHtml(
+                  group.id
+                )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">
                                 ${icon('userPlus', 14)}
                                 <span>Tambah Eksternal</span>
                               </button>`
-                            : ''
-                        }
+                : ''
+              }
                       </div>
 
-                      ${
-                        isAdmin || isMyGroup
-                          ? `<button type="button" data-grp-finalize="${escapeHtml(
-                              group.id
-                            )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">Selesai</button>`
-                          : ''
-                      }
+                      ${isAdmin || isMyGroup
+                ? `<button type="button" data-grp-finalize="${escapeHtml(
+                  group.id
+                )}" class="klik-btn klik-btn--ghost-border klik-btn--sm">Selesai</button>`
+                : ''
+              }
                     </div>
                   `
-                      : ''
-                  }
+              : ''
+            }
                 </div>
               `;
-            })
-            .join('')}
+        })
+        .join('')}
         </div>
       </div>
     `;
@@ -1049,84 +1016,101 @@ export function renderGroupsView(container) {
             </p>
           </div>
 
-          ${
-            isAdmin && groupsUi.tab === 'aktif'
-              ? `
+          ${isAdmin && groupsUi.tab === 'aktif'
+        ? `
             <button type="button" id="klik-grp-create-course-act" class="klik-btn klik-btn--primary">
               ${icon('plus', 14)}
               <span>Buat Pembentukan Kelompok</span>
             </button>
           `
-              : ''
-          }
+        : ''
+      }
         </div>
 
-        ${
-          courseActivitiesInTab.length === 0
-            ? `
+        ${courseActivitiesInTab.length === 0
+        ? `
           <div class="klik-empty">
             <div class="klik-empty-icon">${icon('users', 18)}</div>
-            <h3>Tidak ada aktivitas di tab ${
-              groupsUi.tab === 'aktif' ? 'Aktif' : 'Arsip'
-            }</h3>
+            <h3>Tidak ada aktivitas di tab ${groupsUi.tab === 'aktif' ? 'Aktif' : 'Arsip'
+        }</h3>
             <p>Belum ada aktivitas pembentukan kelompok pada kategori ini untuk mata kuliah tersebut.</p>
           </div>
         `
-            : `
+        : `
           <div class="klik-card">
-            <div class="klik-divide-list">
-              ${courseActivitiesInTab
-                .map(({ activity, groups, archived }) => {
-                  const title =
-                    activity.name.trim() ||
-                    `Pembentukan Kelompok ${selectedCourse.name}`;
-                  const finalCount = groups.filter((g) => g.isFinal).length;
-                  const myMem = viewState.groupMembers.find(
-                    (m) =>
-                      m.activityId === activity.id &&
-                      m.userId === currentUser.id
-                  );
-                  const myGrp = myMem
-                    ? groups.find((g) => g.id === myMem.groupId)
-                    : undefined;
-                  return `
-                    <button type="button" class="klik-list-row-btn" data-grp-open-act="${escapeHtml(
-                      activity.id
-                    )}">
-                      <div style="min-width:0;">
-                        <div style="display:flex;align-items:center;gap:8px;">
-                          <h3 class="truncate" style="font-size:14px;font-weight:500;color:var(--text-primary);">${escapeHtml(
-                            title
-                          )}</h3>
-                          ${
-                            archived
-                              ? `<span class="text-muted" style="font-size:11px;">· Arsip</span>`
-                              : ''
-                          }
-                        </div>
-                        <p class="mono tabular-nums text-muted" style="margin-top:4px;font-size:12px;">
-                          ${activity.totalParticipants} peserta · ${
-                    activity.groupCount
-                  } kelompok · ${finalCount}/${groups.length} final
-                        </p>
-                      </div>
-                      <span class="whitespace-nowrap" style="flex-shrink:0;font-size:12px;font-weight:500;color:${
-                        myGrp ? 'var(--emerald-text)' : 'var(--amber-text)'
-                      };">
-                        ${
-                          myGrp
-                            ? `Kelompok ${myGrp.groupNumber}`
-                            : 'Belum bergabung'
-                        }
-                      </span>
-                    </button>
-                  `;
-                })
-                .join('')}
-            </div>
+  <div class="klik-divide-list">
+    ${courseActivitiesInTab
+          .map(({ activity, groups, archived }) => {
+            const title =
+              activity.name.trim() ||
+              `Pembentukan Kelompok ${selectedCourse.name}`;
+
+            const finalCount = groups.filter((g) => g.isFinal).length;
+
+            const myMem = viewState.groupMembers.find(
+              (m) =>
+                m.activityId === activity.id &&
+                m.userId === currentUser.id
+            );
+
+            const myGrp = myMem
+              ? groups.find((g) => g.id === myMem.groupId)
+              : undefined;
+
+            return `
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
+            <button
+              type="button"
+              class="klik-list-row-btn"
+              data-grp-open-act="${escapeHtml(activity.id)}"
+              style="flex:1;"
+            >
+              <div style="min-width:0;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3 class="truncate" style="font-size:14px;font-weight:500;color:var(--text-primary);">
+                    ${escapeHtml(title)}
+                  </h3>
+                  ${archived
+                ? `<span class="text-muted" style="font-size:11px;">· Arsip</span>`
+                : ''
+              }
+                </div>
+
+                <p class="mono tabular-nums text-muted" style="margin-top:4px;font-size:12px;">
+                  ${activity.totalParticipants} peserta ·
+                  ${activity.groupCount} kelompok ·
+                  ${finalCount}/${groups.length} final
+                </p>
+              </div>
+
+              <span
+                class="whitespace-nowrap"
+                style="flex-shrink:0;font-size:12px;font-weight:500;color:${myGrp ? 'var(--emerald-text)' : 'var(--amber-text)'
+              };"
+              >
+                ${myGrp
+                ? `Kelompok ${myGrp.groupNumber}`
+                : 'Belum bergabung'
+              }
+              </span>
+            </button>
+
+            ${isAdmin
+                ? `<button
+                    type="button"
+                    class="klik-btn klik-btn-danger"
+                    data-grp-delete-act="${escapeHtml(activity.id)}"
+                  >Hapus</button>`
+                : ''
+              }
           </div>
+        `;
+          })
+          .join('')}
+  </div>
+</div>
         `
-        }
+      }
       </div>
     `;
 
@@ -1151,6 +1135,32 @@ export function renderGroupsView(container) {
       });
     });
 
+    container.querySelectorAll('[data-grp-delete-act]').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+
+        const activityId = btn.getAttribute('data-grp-delete-act');
+
+        if (!confirm('Yakin ingin menghapus aktivitas pembentukan kelompok ini beserta seluruh data kelompoknya?')) {
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Menghapus...';
+
+        try {
+          await deleteGroupActivity(activityId);
+          groupsUi.selectedActivityId = null;
+          groupsUi.actionError = null;
+          renderGroupsView(container);
+        } catch (error) {
+          alert(error.message || 'Gagal menghapus aktivitas.');
+          btn.disabled = false;
+          btn.textContent = 'Hapus';
+        }
+      });
+    });
+
     return;
   }
 
@@ -1171,91 +1181,83 @@ export function renderGroupsView(container) {
     <div class="klik-stack-md">
       <div class="klik-toolbar">
         <div class="klik-segmented">
-          <button type="button" data-grp-tab="aktif" class="klik-segmented-btn ${
-            groupsUi.tab === 'aktif' ? 'is-active' : ''
-          }">Aktif</button>
-          <button type="button" data-grp-tab="arsip" class="klik-segmented-btn ${
-            groupsUi.tab === 'arsip' ? 'is-active' : ''
-          }">Arsip</button>
+          <button type="button" data-grp-tab="aktif" class="klik-segmented-btn ${groupsUi.tab === 'aktif' ? 'is-active' : ''
+    }">Aktif</button>
+          <button type="button" data-grp-tab="arsip" class="klik-segmented-btn ${groupsUi.tab === 'arsip' ? 'is-active' : ''
+    }">Arsip</button>
         </div>
 
-        ${
-          isAdmin
-            ? `
+        ${isAdmin
+      ? `
           <button type="button" id="klik-grp-create-main" class="klik-btn klik-btn--primary" style="align-self:flex-start;">
             ${icon('plus', 14)}
             <span>Buat Pembentukan Kelompok</span>
           </button>
         `
-            : ''
-        }
+      : ''
+    }
       </div>
 
-      ${
-        visibleCourses.length === 0
-          ? `
+      ${visibleCourses.length === 0
+      ? `
         <div class="klik-empty">
           <div class="klik-empty-icon">${icon(
-            groupsUi.tab === 'aktif' ? 'users' : 'archive',
-            18
-          )}</div>
-          <h3>${
-            groupsUi.tab === 'aktif'
-              ? 'Belum ada pembentukan kelompok aktif'
-              : 'Belum ada aktivitas yang diarsipkan'
-          }</h3>
-          <p>${
-            groupsUi.tab === 'aktif'
-              ? 'Hanya mata kuliah yang memiliki aktivitas pembentukan kelompok yang ditampilkan di sini.'
-              : 'Aktivitas otomatis pindah ke Arsip ketika seluruh kelompoknya telah berstatus Final.'
-          }</p>
-          ${
-            isAdmin && groupsUi.tab === 'aktif'
-              ? `<div style="margin-top:16px;"><button type="button" id="klik-grp-empty-create" class="klik-btn klik-btn--primary">+ Buat Pembentukan Kelompok</button></div>`
-              : ''
-          }
+        groupsUi.tab === 'aktif' ? 'users' : 'archive',
+        18
+      )}</div>
+          <h3>${groupsUi.tab === 'aktif'
+        ? 'Belum ada pembentukan kelompok aktif'
+        : 'Belum ada aktivitas yang diarsipkan'
+      }</h3>
+          <p>${groupsUi.tab === 'aktif'
+        ? 'Hanya mata kuliah yang memiliki aktivitas pembentukan kelompok yang ditampilkan di sini.'
+        : 'Aktivitas otomatis pindah ke Arsip ketika seluruh kelompoknya telah berstatus Final.'
+      }</p>
+          ${isAdmin && groupsUi.tab === 'aktif'
+        ? `<div style="margin-top:16px;"><button type="button" id="klik-grp-empty-create" class="klik-btn klik-btn--primary">+ Buat Pembentukan Kelompok</button></div>`
+        : ''
+      }
         </div>
       `
-          : `
+      : `
         <div class="klik-card">
           <div class="klik-divide-list">
             ${visibleCourses
-              .map((course) => {
-                const courseActs = activitiesWithStatus.filter(
-                  (x) =>
-                    x.activity.courseId === course.id &&
-                    x.archived === wantArchived
-                );
-                return `
+        .map((course) => {
+          const courseActs = activitiesWithStatus.filter(
+            (x) =>
+              x.activity.courseId === course.id &&
+              x.archived === wantArchived
+          );
+          return `
                   <button type="button" class="klik-list-row-btn" data-grp-course="${escapeHtml(
-                    course.id
-                  )}">
+            course.id
+          )}">
                     <div style="min-width:0;">
                       <div style="display:flex;align-items:center;gap:8px;">
                         <h2 class="truncate" style="font-size:14px;font-weight:600;color:var(--text-primary);">${escapeHtml(
-                          course.name
-                        )}</h2>
+            course.name
+          )}</h2>
                         <span class="mono text-dim" style="font-size:12px;">${escapeHtml(
-                          course.code
-                        )}</span>
+            course.code
+          )}</span>
                       </div>
                       <p class="truncate text-muted" style="margin-top:4px;font-size:12px;">${escapeHtml(
-                        course.lecturer
-                      )}</p>
+            course.lecturer
+          )}</p>
                     </div>
                     <div style="flex-shrink:0;text-align:right;">
-                      <span class="text-emerald tabular-nums" style="font-size:12px;font-weight:500;">${
-                        courseActs.length
-                      } aktivitas</span>
+                      <span class="text-emerald tabular-nums" style="font-size:12px;font-weight:500;">${courseActs.length
+            } aktivitas</span>
                     </div>
                   </button>
                 `;
-              })
-              .join('')}
+        })
+        .join('')}
           </div>
         </div>
       `
-      }
+    }
     </div>
   `;
 

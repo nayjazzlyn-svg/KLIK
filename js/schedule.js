@@ -4,6 +4,7 @@ import {
   isModalOpen,
   openConfirmDialog,
   openCourseCollectionModal,
+  openAddCourseModal,
   openModal,
 } from './modal.js';
 import {
@@ -73,18 +74,17 @@ function openAddScheduleModal(dayOfWeek, startHour) {
         <div>
           <label class="klik-label">Mata Kuliah</label>
           <select name="courseId" class="klik-select">
-            ${
-              viewState.courses.length === 0
-                ? `<option value="">Belum ada mata kuliah</option>`
-                : viewState.courses
-                    .map(
-                      (c) =>
-                        `<option value="${escapeHtml(c.id)}">${escapeHtml(
-                          c.name
-                        )} (${escapeHtml(c.code)})</option>`
-                    )
-                    .join('')
-            }
+            ${viewState.courses.length === 0
+        ? `<option value="">Belum ada mata kuliah</option>`
+        : viewState.courses
+          .map(
+            (c) =>
+              `<option value="${escapeHtml(c.id)}">${escapeHtml(
+                c.name
+              )} (${escapeHtml(c.code)})</option>`
+          )
+          .join('')
+      }
           </select>
         </div>
 
@@ -93,26 +93,25 @@ function openAddScheduleModal(dayOfWeek, startHour) {
             <label class="klik-label">Hari</label>
             <select name="dayOfWeek" class="klik-select">
               ${INDONESIAN_DAYS.map(
-                (day, idx) =>
-                  `<option value="${idx + 1}" ${
-                    idx + 1 === defaultDay ? 'selected' : ''
-                  }>${escapeHtml(day)}</option>`
-              ).join('')}
+        (day, idx) =>
+          `<option value="${idx + 1}" ${idx + 1 === defaultDay ? 'selected' : ''
+          }>${escapeHtml(day)}</option>`
+      ).join('')}
             </select>
           </div>
           <div>
             <label class="klik-label">Jam Mulai</label>
             <input type="time" name="startTime" value="${String(startH).padStart(
-              2,
-              '0'
-            )}:00" class="klik-input mono" />
+        2,
+        '0'
+      )}:00" class="klik-input mono" />
           </div>
           <div>
             <label class="klik-label">Jam Selesai</label>
             <input type="time" name="endTime" value="${String(endH).padStart(
-              2,
-              '0'
-            )}:00" class="klik-input mono" />
+        2,
+        '0'
+      )}:00" class="klik-input mono" />
           </div>
         </div>
 
@@ -212,70 +211,69 @@ function openEditScheduleModal(inst) {
           <label class="klik-label" style="margin-bottom:8px;">Terapkan perubahan untuk</label>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${scopes
-              .map(
-                (opt) => `
-              <label class="klik-radio-card ${
-                opt.id === editScope ? 'is-selected' : ''
-              }" data-scope-card="${opt.id}">
-                <input type="radio" name="scope" value="${opt.id}" ${
-                  opt.id === editScope ? 'checked' : ''
-                } style="margin-top:2px;accent-color:var(--emerald);" />
+        .map(
+          (opt) => `
+              <label class="klik-radio-card ${opt.id === editScope ? 'is-selected' : ''
+            }" data-scope-card="${opt.id}">
+                <input type="radio" name="scope" value="${opt.id}" ${opt.id === editScope ? 'checked' : ''
+            } style="margin-top:2px;accent-color:var(--emerald);" />
                 <div>
                   <p style="font-size:12px;font-weight:500;color:var(--text-primary);">${escapeHtml(
-                    opt.title
-                  )}</p>
+              opt.title
+            )}</p>
                   <p style="margin-top:2px;font-size:11px;color:var(--text-muted);">${escapeHtml(
-                    opt.desc
-                  )}</p>
+              opt.desc
+            )}</p>
                 </div>
               </label>
             `
-              )
-              .join('')}
+        )
+        .join('')}
           </div>
         </div>
 
         <div>
-          <label class="klik-label">Mata Kuliah</label>
-          <select name="courseId" class="klik-select">
-            ${viewState.courses
-              .map(
-                (c) =>
-                  `<option value="${escapeHtml(c.id)}" ${
-                    c.id === inst.courseId ? 'selected' : ''
-                  }>${escapeHtml(c.name)} (${escapeHtml(c.code)})</option>`
-              )
-              .join('')}
-          </select>
-        </div>
+  <label class="klik-label">Hari</label>
+  <select name="dayOfWeek" class="klik-select">
+    ${[
+        { value: 1, label: 'Senin' },
+        { value: 2, label: 'Selasa' },
+        { value: 3, label: 'Rabu' },
+        { value: 4, label: 'Kamis' },
+        { value: 5, label: 'Jumat' },
+        { value: 6, label: 'Sabtu' },
+        { value: 7, label: 'Minggu' },
+      ].map(d => `<option value="${d.value}" ${d.value === inst.dayOfWeek ? 'selected' : ''}>${d.label}</option>`).join('')}
+  </select>
+</div>
 
         <div class="klik-grid-form-2">
           <div>
             <label class="klik-label">Jam Mulai</label>
             <input type="time" name="startTime" value="${escapeHtml(
-              inst.startTime
-            )}" class="klik-input mono" />
+        inst.startTime
+      )}" class="klik-input mono" />
           </div>
           <div>
             <label class="klik-label">Jam Selesai</label>
             <input type="time" name="endTime" value="${escapeHtml(
-              inst.endTime
-            )}" class="klik-input mono" />
+        inst.endTime
+      )}" class="klik-input mono" />
           </div>
         </div>
 
         <div>
           <label class="klik-label">Ruangan</label>
           <input type="text" name="room" value="${escapeHtml(
-            inst.room
-          )}" class="klik-input" />
+        inst.room
+      )}" class="klik-input" />
         </div>
 
         <div id="klik-edit-reason-wrap">
           <label class="klik-label">Alasan Perubahan (Opsional)</label>
           <input type="text" name="reason" value="${escapeHtml(
-            inst.exception?.reason ?? ''
-          )}" placeholder="Misal: Pindah ruangan karena lab sedang digunakan" class="klik-input" />
+        inst.exception?.reason ?? ''
+      )}" placeholder="Misal: Pindah ruangan karena lab sedang digunakan" class="klik-input" />
         </div>
 
         <p id="klik-edit-sched-err" class="hidden text-rose" style="font-size:12px;"></p>
@@ -312,7 +310,7 @@ function openEditScheduleModal(inst) {
 
       form?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const courseId = form.elements.courseId.value;
+        const courseId = inst.courseId;
         const startTime = form.elements.startTime.value;
         const endTime = form.elements.endTime.value;
         const room = form.elements.room.value;
@@ -337,7 +335,7 @@ function openEditScheduleModal(inst) {
           scheduleId: inst.scheduleId,
           instanceDate: inst.date,
           scope: editScope,
-          courseId,
+          dayOfWeek: Number(form.querySelector('[name="dayOfWeek"]').value),
           startTime,
           endTime,
           room,
@@ -397,23 +395,21 @@ function openScheduleDetailModal(inst) {
   openModal({
     id: 'schedule-detail',
     title: course?.name ?? 'Detail Jadwal',
-    subtitle: `${formatIndonesianFullDate(parseLocalDateKey(inst.date))} · ${
-      course?.code ?? ''
-    }`,
+    subtitle: `${formatIndonesianFullDate(parseLocalDateKey(inst.date))} · ${course?.code ?? ''
+      }`,
     size: 'lg',
     bodyHtml: `
       <div class="klik-stack-sm">
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;">
-          ${
-            inst.isCancelled
-              ? `<span class="klik-tag klik-tag--rose">Dibatalkan</span>`
-              : inst.isModified
-              ? `<span class="klik-tag klik-tag--amber">Berubah (Khusus Tanggal Ini)</span>`
-              : `<span class="klik-tag klik-tag--neutral">Jadwal Rutin</span>`
-          }
+          ${inst.isCancelled
+        ? `<span class="klik-tag klik-tag--rose">Dibatalkan</span>`
+        : inst.isModified
+          ? `<span class="klik-tag klik-tag--amber">Berubah (Khusus Tanggal Ini)</span>`
+          : `<span class="klik-tag klik-tag--neutral">Jadwal Rutin</span>`
+      }
           <span class="text-muted">${escapeHtml(course?.credits ?? '')} SKS · ${escapeHtml(
-      course?.lecturer ?? ''
-    )}</span>
+        course?.lecturer ?? ''
+      )}</span>
         </div>
 
         <div class="klik-subpanel klik-grid-form-2-resp">
@@ -431,40 +427,38 @@ function openScheduleDetailModal(inst) {
             <div>
               <p class="text-muted">Ruangan</p>
               <p style="margin-top:2px;font-size:14px;color:var(--text-primary);">${escapeHtml(
-                inst.room
-              )}</p>
+        inst.room
+      )}</p>
             </div>
           </div>
         </div>
 
-        ${
-          inst.exception?.reason
-            ? `
+        ${inst.exception?.reason
+        ? `
           <div class="klik-subpanel" style="font-size:12px;color:var(--text-secondary);">
             <p class="text-muted" style="font-weight:500;margin-bottom:4px;">Catatan Perubahan:</p>
             <p>${escapeHtml(inst.exception.reason)}</p>
           </div>
         `
-            : ''
-        }
+        : ''
+      }
 
         <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:12px;">
           <p class="text-muted" style="font-size:12px;font-weight:500;margin-bottom:6px;">
             Link Pengumpulan Mata Kuliah
           </p>
-          ${
-            course?.collection
-              ? `
+          ${course?.collection
+        ? `
             <a href="${escapeHtml(
-              colUrl
-            )}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--emerald-text);">
+          colUrl
+        )}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--emerald-text);">
               ${icon('link2', 14)}
               <span>${escapeHtml(course.collection.label)}</span>
               ${icon('externalLink', 12)}
             </a>
           `
-              : `<p style="font-size:12px;color:var(--text-dim);">Belum ada destinasi pengumpulan yang ditetapkan.</p>`
-          }
+        : `<p style="font-size:12px;color:var(--text-dim);">Belum ada destinasi pengumpulan yang ditetapkan.</p>`
+      }
         </div>
       </div>
     `,
@@ -476,17 +470,16 @@ function openScheduleDetailModal(inst) {
           <span>Hapus Rutin</span>
         </button>
         <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
-          ${
-            inst.isCancelled
-              ? `<button type="button" id="klik-sd-restore" class="klik-btn klik-btn--ghost-border" style="color:var(--emerald-soft);">
+          ${inst.isCancelled
+        ? `<button type="button" id="klik-sd-restore" class="klik-btn klik-btn--ghost-border" style="color:var(--emerald-soft);">
                   ${icon('rotateCcw', 14)}
                   <span>Pulihkan Pertemuan</span>
                 </button>`
-              : `<button type="button" id="klik-sd-cancel" class="klik-btn klik-btn--danger-outline">
+        : `<button type="button" id="klik-sd-cancel" class="klik-btn klik-btn--danger-outline">
                   ${icon('ban', 14)}
                   <span>Batalkan Sesi Ini</span>
                 </button>`
-          }
+      }
           <button type="button" id="klik-sd-edit" class="klik-btn klik-btn--primary">
             ${icon('pencil', 14)}
             <span>Edit Jadwal</span>
@@ -628,10 +621,13 @@ export function renderScheduleView(container) {
           </span>
         </div>
 
-        ${
-          isAdmin
-            ? `
+        ${isAdmin
+      ? `
           <div class="klik-toolbar-group">
+            <button type="button" id="klik-sched-course-add" class="klik-btn klik-btn--secondary">
+              ${icon('plus', 14)}
+              <span>Tambah Mata Kuliah</span>
+            </button>
             <button type="button" id="klik-sched-collections" class="klik-btn klik-btn--secondary">
               ${icon('link2', 14, 'text-muted')}
               <span>Link Pengumpulan</span>
@@ -642,8 +638,8 @@ export function renderScheduleView(container) {
             </button>
           </div>
         `
-            : ''
-        }
+      : ''
+    }
       </div>
 
       <!-- Main Split -->
@@ -653,114 +649,109 @@ export function renderScheduleView(container) {
           <div class="klik-schedule-grid-head">
             <div class="klik-schedule-gutter-head">WIB</div>
             ${weekDates
-              .map((d, idx) => {
-                const dateKey = toLocalDateKey(d);
-                const isToday = dateKey === todayKey;
-                const isSelected = dateKey === scheduleUi.selectedDateKey;
-                return `
+      .map((d, idx) => {
+        const dateKey = toLocalDateKey(d);
+        const isToday = dateKey === todayKey;
+        const isSelected = dateKey === scheduleUi.selectedDateKey;
+        return `
                   <button
                     type="button"
                     data-sched-select-day="${escapeHtml(dateKey)}"
-                    class="klik-schedule-day-btn ${
-                      isSelected ? 'is-selected' : ''
-                    }"
+                    class="klik-schedule-day-btn ${isSelected ? 'is-selected' : ''
+          }"
                   >
                     <p style="font-size:11px;font-weight:500;color:var(--text-muted);">${escapeHtml(
-                      INDONESIAN_SHORT_DAYS[idx]
-                    )}</p>
-                    <p class="klik-day-num ${isToday ? 'is-today' : ''} ${
-                  !isToday && isSelected ? 'is-selected' : ''
-                }">${d.getDate()}</p>
+            INDONESIAN_SHORT_DAYS[idx]
+          )}</p>
+                    <p class="klik-day-num ${isToday ? 'is-today' : ''} ${!isToday && isSelected ? 'is-selected' : ''
+          }">${d.getDate()}</p>
                   </button>
                 `;
-              })
-              .join('')}
+      })
+      .join('')}
           </div>
 
           <div class="klik-schedule-grid-body">
             <div class="klik-schedule-time-gutter" style="height:${totalGridHeight}px;">
               ${hoursList
-                .slice(0, -1)
-                .map(
-                  (hour) => `
+      .slice(0, -1)
+      .map(
+        (hour) => `
                   <div class="klik-schedule-hour-label" style="height:${HOUR_HEIGHT}px;">
                     ${String(hour).padStart(2, '0')}:00
                   </div>
                 `
-                )
-                .join('')}
+      )
+      .join('')}
             </div>
 
             ${weekDates
-              .map((d, dayIdx) => {
-                const dateKey = toLocalDateKey(d);
-                const dayInstances = weekInstancesByDate.get(dateKey) ?? [];
-                const dayStatuses = getInstanceStatusesForDate(
-                  dayInstances,
-                  now
-                );
-                const isSelected = dateKey === scheduleUi.selectedDateKey;
+      .map((d, dayIdx) => {
+        const dateKey = toLocalDateKey(d);
+        const dayInstances = weekInstancesByDate.get(dateKey) ?? [];
+        const dayStatuses = getInstanceStatusesForDate(
+          dayInstances,
+          now
+        );
+        const isSelected = dateKey === scheduleUi.selectedDateKey;
 
-                return `
+        return `
                   <div
-                    class="klik-schedule-day-col ${
-                      isSelected ? 'is-selected' : ''
-                    }"
+                    class="klik-schedule-day-col ${isSelected ? 'is-selected' : ''
+          }"
                     style="height:${totalGridHeight}px;"
                     data-sched-col-date="${escapeHtml(dateKey)}"
                   >
                     ${hoursList
-                      .slice(0, -1)
-                      .map(
-                        (hour) => `
+            .slice(0, -1)
+            .map(
+              (hour) => `
                         <div
-                          class="klik-schedule-slot ${
-                            isAdmin ? 'is-admin' : ''
-                          }"
+                          class="klik-schedule-slot ${isAdmin ? 'is-admin' : ''
+                }"
                           style="height:${HOUR_HEIGHT}px;"
                           data-sched-slot-date="${escapeHtml(dateKey)}"
                           data-sched-slot-day="${dayIdx + 1}"
                           data-sched-slot-hour="${hour}"
-                          ${
-                            isAdmin
-                              ? `title="Klik untuk tambah jadwal ${escapeHtml(
-                                  INDONESIAN_DAYS[dayIdx]
-                                )} pukul ${String(hour).padStart(2, '0')}:00"`
-                              : ''
-                          }
+                          ${isAdmin
+                  ? `title="Klik untuk tambah jadwal ${escapeHtml(
+                    INDONESIAN_DAYS[dayIdx]
+                  )} pukul ${String(hour).padStart(2, '0')}:00"`
+                  : ''
+                }
                         ></div>
                       `
-                      )
-                      .join('')}
+            )
+            .join('')}
 
                     ${dayInstances
-                      .map((inst) => {
-                        const course = getCourseById(inst.courseId);
-                        const status =
-                          dayStatuses.get(inst.instanceKey) ?? 'Nanti';
-                        const startMin = timeToMinutes(inst.startTime);
-                        const endMin = timeToMinutes(inst.endTime);
-                        const gridStartMin = START_HOUR * 60;
-                        const topPx = Math.max(
-                          0,
-                          ((startMin - gridStartMin) / 60) * HOUR_HEIGHT
-                        );
-                        const heightPx = Math.max(
-                          34,
-                          ((endMin - startMin) / 60) * HOUR_HEIGHT - 2
-                        );
+            .map((inst) => {
+              const course = getCourseById(inst.courseId);
+              const status =
+                dayStatuses.get(inst.instanceKey) ?? 'Nanti';
+              const startMin = timeToMinutes(inst.startTime);
+              const endMin = timeToMinutes(inst.endTime);
+              const gridStartMin = START_HOUR * 60;
+              const topPx = Math.max(
+                0,
+                ((startMin - gridStartMin) / 60) * HOUR_HEIGHT
+              );
+              const heightPx = Math.max(
+                34,
+                ((endMin - startMin) / 60) * HOUR_HEIGHT - 2
+              );
 
-                        const blockClass = inst.isCancelled
-                          ? 'is-cancelled'
-                          : status === 'Berlangsung'
-                          ? 'is-ongoing'
-                          : inst.isModified
-                          ? 'is-modified'
-                          : status === 'Selesai'
-                          ? 'is-done'
-                          : '';
+              const blockClass = inst.isCancelled
+                ? 'is-cancelled'
+                : status === 'Berlangsung'
+                  ? 'is-ongoing'
+                  : inst.isModified
+                    ? 'is-modified'
+                    : status === 'Selesai'
+                      ? 'is-done'
+                      : '';
 
-                        return `
+              return `
                           <button
                             type="button"
                             class="klik-schedule-block ${blockClass}"
@@ -769,75 +760,70 @@ export function renderScheduleView(container) {
                             data-sched-block-date="${escapeHtml(dateKey)}"
                           >
                             <div style="min-width:0;width:100%;">
-                              <span class="truncate" style="display:block;font-size:11px;font-weight:600;line-height:1.25;${
-                                inst.isCancelled
-                                  ? 'text-decoration:line-through;'
-                                  : ''
-                              }">
+                              <span class="truncate" style="display:block;font-size:11px;font-weight:600;line-height:1.25;${inst.isCancelled
+                  ? 'text-decoration:line-through;'
+                  : ''
+                }">
                                 ${escapeHtml(course?.name ?? 'Mata Kuliah')}
                               </span>
                               <p class="truncate" style="margin-top:2px;font-size:10px;color:var(--text-muted);">
                                 ${escapeHtml(inst.room)}
                               </p>
                             </div>
-                            ${
-                              heightPx >= 52
-                                ? `
+                            ${heightPx >= 52
+                  ? `
                               <div class="mono tabular-nums" style="display:flex;width:100%;align-items:center;justify-content:space-between;gap:4px;font-size:10px;">
                                 <span style="color:var(--text-muted);">${escapeHtml(
-                                  inst.startTime
-                                )}</span>
-                                ${
-                                  inst.isCancelled
-                                    ? `<span class="text-rose" style="font-family:var(--font-sans);font-weight:500;">Dibatalkan</span>`
-                                    : inst.isModified
-                                    ? `<span class="text-amber" style="font-family:var(--font-sans);font-weight:500;">Berubah</span>`
-                                    : status === 'Berlangsung'
-                                    ? `<span class="text-emerald" style="font-family:var(--font-sans);font-weight:500;">Berlangsung</span>`
-                                    : ''
-                                }
+                    inst.startTime
+                  )}</span>
+                                ${inst.isCancelled
+                    ? `<span class="text-rose" style="font-family:var(--font-sans);font-weight:500;">Dibatalkan</span>`
+                    : inst.isModified
+                      ? `<span class="text-amber" style="font-family:var(--font-sans);font-weight:500;">Berubah</span>`
+                      : status === 'Berlangsung'
+                        ? `<span class="text-emerald" style="font-family:var(--font-sans);font-weight:500;">Berlangsung</span>`
+                        : ''
+                  }
                               </div>
                             `
-                                : ''
-                            }
+                  : ''
+                }
                           </button>
                         `;
-                      })
-                      .join('')}
+            })
+            .join('')}
                   </div>
                 `;
-              })
-              .join('')}
+      })
+      .join('')}
           </div>
         </div>
 
         <!-- Mobile 7-Day Selector -->
         <div class="klik-mobile-day-strip">
           ${weekDates
-            .map((d, idx) => {
-              const key = toLocalDateKey(d);
-              const isSelected = key === scheduleUi.selectedDateKey;
-              const isToday = key === todayKey;
-              const hasClasses = (weekInstancesByDate.get(key) ?? []).length > 0;
-              return `
+      .map((d, idx) => {
+        const key = toLocalDateKey(d);
+        const isSelected = key === scheduleUi.selectedDateKey;
+        const isToday = key === todayKey;
+        const hasClasses = (weekInstancesByDate.get(key) ?? []).length > 0;
+        return `
                 <button
                   type="button"
                   data-sched-select-day="${escapeHtml(key)}"
-                  class="klik-mobile-day-btn ${
-                    isSelected ? 'is-selected' : ''
-                  }"
+                  class="klik-mobile-day-btn ${isSelected ? 'is-selected' : ''
+          }"
                 >
                   <span style="font-size:10px;">${escapeHtml(
-                    INDONESIAN_SHORT_DAYS[idx]
-                  )}</span>
+            INDONESIAN_SHORT_DAYS[idx]
+          )}</span>
                   <span class="klik-day-num ${isToday ? 'is-today' : ''}" style="margin-top:4px;">${d.getDate()}</span>
-                  <span class="klik-mobile-day-dot ${
-                    hasClasses ? 'has-classes' : ''
-                  }"></span>
+                  <span class="klik-mobile-day-dot ${hasClasses ? 'has-classes' : ''
+          }"></span>
                 </button>
               `;
-            })
-            .join('')}
+      })
+      .join('')}
         </div>
 
         <!-- Daily Detail Aside -->
@@ -845,49 +831,46 @@ export function renderScheduleView(container) {
           <div class="klik-card-head" style="padding:14px 16px;">
             <div>
               <h2 class="klik-card-title">${escapeHtml(
-                formatIndonesianFullDate(selectedDateObj)
-              )}</h2>
+        formatIndonesianFullDate(selectedDateObj)
+      )}</h2>
               <p style="margin-top:2px;font-size:12px;color:var(--text-muted);">
-                ${
-                  selectedDayInstances.length > 0
-                    ? `${selectedDayInstances.length} sesi perkuliahan`
-                    : 'Tidak ada perkuliahan'
-                }
+                ${selectedDayInstances.length > 0
+      ? `${selectedDayInstances.length} sesi perkuliahan`
+      : 'Tidak ada perkuliahan'
+    }
               </p>
             </div>
-            ${
-              isAdmin
-                ? `<button type="button" id="klik-sched-aside-add" class="klik-btn klik-btn--ghost-border klik-btn--sm">+ Tambah</button>`
-                : ''
-            }
+            ${isAdmin
+      ? `<button type="button" id="klik-sched-aside-add" class="klik-btn klik-btn--ghost-border klik-btn--sm">+ Tambah</button>`
+      : ''
+    }
           </div>
 
           <div style="padding:16px;">
-            ${
-              selectedDayInstances.length === 0
-                ? `
+            ${selectedDayInstances.length === 0
+      ? `
               <div class="klik-empty klik-empty--compact">
                 <div class="klik-empty-icon">${icon('calendarDays', 18)}</div>
                 <h3>Hari ini kosong</h3>
                 <p>Belum ada jadwal kuliah rutin pada tanggal yang dipilih.</p>
               </div>
             `
-                : `
+      : `
               <div class="klik-divide-list klik-divide-pad">
                 ${selectedDayInstances
-                  .map((inst) => {
-                    const course = getCourseById(inst.courseId);
-                    const status =
-                      selectedDayStatuses.get(inst.instanceKey) ?? 'Nanti';
-                    const statusColor =
-                      status === 'Berlangsung'
-                        ? 'var(--emerald-text)'
-                        : status === 'Berikutnya'
-                        ? 'var(--amber-text)'
-                        : status === 'Dibatalkan'
-                        ? 'var(--rose-text)'
-                        : 'var(--text-dim)';
-                    return `
+        .map((inst) => {
+          const course = getCourseById(inst.courseId);
+          const status =
+            selectedDayStatuses.get(inst.instanceKey) ?? 'Nanti';
+          const statusColor =
+            status === 'Berlangsung'
+              ? 'var(--emerald-text)'
+              : status === 'Berikutnya'
+                ? 'var(--amber-text)'
+                : status === 'Dibatalkan'
+                  ? 'var(--rose-text)'
+                  : 'var(--text-dim)';
+          return `
                       <button
                         type="button"
                         data-sched-aside-inst="${escapeHtml(inst.instanceKey)}"
@@ -895,47 +878,43 @@ export function renderScheduleView(container) {
                       >
                         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;">
                           <span class="mono tabular-nums text-muted">${escapeHtml(
-                            inst.startTime
-                          )} – ${escapeHtml(inst.endTime)}</span>
+            inst.startTime
+          )} – ${escapeHtml(inst.endTime)}</span>
                           <div style="display:flex;align-items:center;gap:8px;">
-                            ${
-                              inst.isModified && !inst.isCancelled
-                                ? `<span class="text-amber" style="font-size:11px;font-weight:500;">Berubah</span>`
-                                : ''
-                            }
+                            ${inst.isModified && !inst.isCancelled
+              ? `<span class="text-amber" style="font-size:11px;font-weight:500;">Berubah</span>`
+              : ''
+            }
                             <span style="font-size:11px;font-weight:500;color:${statusColor};">${escapeHtml(
-                      status
-                    )}</span>
+              status
+            )}</span>
                           </div>
                         </div>
-                        <p style="margin-top:4px;font-size:14px;font-weight:500;color:${
-                          inst.isCancelled
-                            ? 'var(--text-muted)'
-                            : 'var(--text-primary)'
-                        };${
-                      inst.isCancelled ? 'text-decoration:line-through;' : ''
-                    }">
+                        <p style="margin-top:4px;font-size:14px;font-weight:500;color:${inst.isCancelled
+              ? 'var(--text-muted)'
+              : 'var(--text-primary)'
+            };${inst.isCancelled ? 'text-decoration:line-through;' : ''
+            }">
                           ${escapeHtml(course?.name ?? 'Mata Kuliah')}
                         </p>
                         <p style="margin-top:2px;font-size:12px;color:var(--text-muted);">
                           ${escapeHtml(inst.room)} · ${escapeHtml(
-                      course?.lecturer ?? ''
-                    )}
+              course?.lecturer ?? ''
+            )}
                         </p>
-                        ${
-                          inst.exception?.reason
-                            ? `<p style="margin-top:6px;font-size:11px;color:var(--text-muted);background:#1b1f26;border-radius:4px;padding:6px 10px;border:1px solid var(--border-subtle);">${escapeHtml(
-                                inst.exception.reason
-                              )}</p>`
-                            : ''
-                        }
+                        ${inst.exception?.reason
+              ? `<p style="margin-top:6px;font-size:11px;color:var(--text-muted);background:#1b1f26;border-radius:4px;padding:6px 10px;border:1px solid var(--border-subtle);">${escapeHtml(
+                inst.exception.reason
+              )}</p>`
+              : ''
+            }
                       </button>
                     `;
-                  })
-                  .join('')}
+        })
+        .join('')}
               </div>
             `
-            }
+    }
           </div>
         </aside>
       </div>
@@ -973,6 +952,12 @@ export function renderScheduleView(container) {
       scheduleUi.selectedDateKey = toLocalDateKey(next);
       renderScheduleView(container);
     });
+
+  container.querySelector('#klik-sched-course-add')?.addEventListener('click', () => openAddCourseModal());
+
+  container
+    .querySelector('#klik-sched-course-add')
+    ?.addEventListener('click', () => openAddCourseModal());
 
   container
     .querySelector('#klik-sched-collections')

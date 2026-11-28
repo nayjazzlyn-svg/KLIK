@@ -8,12 +8,14 @@ import {
   fetchUserProfile,
   fsAddExternalMember,
   fsAddSchedule,
+  fsAddCourse,
   fsCreateAnnouncement,
   fsCreateGroupActivity,
   fsCreateGroupTask,
   fsCreateIndividualTask,
   fsDeleteAnnouncement,
   fsDeleteGroupTask,
+  fsDeleteGroupActivity,
   fsDeleteIndividualTask,
   fsDeletePendingRosterEntry,
   fsDeleteSchedule,
@@ -277,9 +279,9 @@ export function getStoreState() {
 export function isAuthenticated() {
   return Boolean(
     state.firebaseUser &&
-      state.userProfile &&
-      state.activeClassId &&
-      state.verifiedMemberRole
+    state.userProfile &&
+    state.activeClassId &&
+    state.verifiedMemberRole
   );
 }
 
@@ -721,6 +723,12 @@ export async function seedCurrentClassSampleData() {
   );
 }
 
+export async function addCourse(input) {
+  if (!state.activeClassId) return { ok: false, error: 'Workspace kelas belum siap.' };
+  try { await fsAddCourse(state.activeClassId, input); return { ok: true }; }
+  catch (error) { return { ok: false, error: error?.message || 'Gagal menyimpan mata kuliah.' }; }
+}
+
 export function upsertCourseCollection(courseId, label, url) {
   if (!state.activeClassId) return;
   const course = getCourseById(courseId);
@@ -745,15 +753,19 @@ export function editScheduleWithScope(input) {
   const target = state.slice.schedules.find((s) => s.id === input.scheduleId);
   if (!target) return;
 
+  const newDayOfWeek = Number(input.dayOfWeek);
+
   if (input.scope === 'this_only') {
     const existingExc = state.slice.scheduleExceptions.find(
       (e) => e.scheduleId === input.scheduleId && e.date === input.instanceDate
     );
+
     void fsSaveScheduleException(state.activeClassId, existingExc?.id, {
       scheduleId: input.scheduleId,
       date: input.instanceDate,
       type: 'modified',
-      overrideCourseId: input.courseId,
+      overrideCourseId: target.courseId,
+      overrideDayOfWeek: newDayOfWeek,
       overrideStartTime: input.startTime,
       overrideEndTime: input.endTime,
       overrideRoom: input.room,
@@ -768,14 +780,15 @@ export function editScheduleWithScope(input) {
     const futureExcIds = state.slice.scheduleExceptions
       .filter((e) => e.scheduleId === target.id && e.date >= input.instanceDate)
       .map((e) => e.id);
+
     void fsSplitScheduleThisAndFollowing(
       state.activeClassId,
       target,
       dayBeforeKey,
       input.instanceDate,
-      getIsoWeekday(instanceDateObj),
+      newDayOfWeek,
       {
-        courseId: input.courseId,
+        courseId: target.courseId,
         startTime: input.startTime,
         endTime: input.endTime,
         room: input.room,
@@ -786,7 +799,8 @@ export function editScheduleWithScope(input) {
   }
 
   void fsUpdateAllRecurringSchedule(state.activeClassId, target.id, {
-    courseId: input.courseId,
+    courseId: target.courseId,
+    dayOfWeek: newDayOfWeek,
     startTime: input.startTime,
     endTime: input.endTime,
     room: input.room,
@@ -914,6 +928,20 @@ export async function createGroupActivity(input) {
     throw new Error('Kelas tidak aktif.');
   }
   return fsCreateGroupActivity(state.activeClassId, cur.id, input);
+}
+
+export async function deleteGroupActivity(activityId) {
+  const cur = getCurrentUser();
+
+  if (!state.activeClassId || !cur.id) {
+    throw new Error('Kelas tidak aktif.');
+  }
+
+  if (state.verifiedMemberRole !== 'admin') {
+    throw new Error('Hanya Admin yang dapat menghapus aktivitas.');
+  }
+
+  return fsDeleteGroupActivity(state.activeClassId, activityId);
 }
 
 export function joinGroup(activityId, groupId) {

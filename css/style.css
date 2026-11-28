@@ -264,6 +264,13 @@ ol {
   margin: 0 auto;
 }
 
+.klik-auth-brand .klik-logo-badge--lg img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+}
+
 .klik-auth-brand h1 {
   margin-top: 16px;
   font-size: 24px;
