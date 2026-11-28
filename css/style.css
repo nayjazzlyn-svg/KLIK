@@ -238,6 +238,16 @@ ol {
   font-size: 12px;
 }
 
+.klik-sidebar-brand-row img.klik-logo-badge {
+  width: 28px !important;
+  height: 28px !important;
+  max-width: 28px !important;
+  min-width: 28px !important;
+  object-fit: contain !important;
+  display: block;
+  flex-shrink: 0;
+}
+
 /* Auth / Login Screen */
 .klik-auth-page {
   min-height: 100vh;
