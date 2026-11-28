@@ -1,0 +1,12 @@
+{
+  "projectId": "klik-workspace",
+  "appId": "1:859039469339:web:1d451af8a9a612cebd8dbe",
+  "apiKey": "AIzaSyD-1bVhlonWv7Tx3Rl-uha7qpIKL3G4E24",
+  "authDomain": "klik-workspace.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "klik-workspace.firebasestorage.app",
+  "messagingSenderId": "859039469339",
+  "measurementId": "G-0W6V05RBNQ",
+  "oAuthClientId": "",
+  "recaptchaSiteKey": ""
+}

@@ -1,0 +1,2064 @@
+:root {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --bg-main: #111214;
+  --bg-sidebar: #16181c;
+  --bg-surface: #16181c;
+  --bg-surface-alt: #14161a;
+  --bg-surface-elevated: #181a1f;
+  --bg-focus: #181b20;
+  --bg-input: #131519;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --bg-active: #22262d;
+  --bg-tab-active: #252a33;
+
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(16, 185, 129, 0.6);
+
+  --text-primary: #f3f4f6;
+  --text-body: #e5e7eb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+  --text-sep: #4b5563;
+
+  --emerald: #10b981;
+  --emerald-hover: #34d399;
+  --emerald-text: #34d399;
+  --emerald-soft: #6ee7b7;
+  --emerald-ink: #0b0f0e;
+
+  --amber-text: #fcd34d;
+  --amber-soft: #fde68a;
+  --rose-text: #fb7185;
+  --rose-soft: #fda4af;
+  --rose-bg: rgba(244, 63, 94, 0.9);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.2);
+  color: #a7f3d0;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+/* Custom subtle scrollbars for dark workspace */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Utility helpers */
+.hidden {
+  display: none !important;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.whitespace-pre-line {
+  white-space: pre-line;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+.text-emerald {
+  color: var(--emerald-text);
+}
+.text-emerald-soft {
+  color: var(--emerald-soft);
+}
+.text-amber {
+  color: var(--amber-text);
+}
+.text-amber-soft {
+  color: var(--amber-soft);
+}
+.text-rose {
+  color: var(--rose-text);
+}
+.text-rose-soft {
+  color: var(--rose-soft);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-dim {
+  color: var(--text-dim);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-primary {
+  color: var(--text-primary);
+}
+.text-body {
+  color: var(--text-body);
+}
+.text-sep {
+  color: var(--text-sep);
+}
+
+/* Loading screen */
+.klik-boot-screen {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.klik-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: var(--emerald);
+  color: var(--emerald-ink);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  flex-shrink: 0;
+}
+
+.klik-logo-badge--lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.klik-logo-badge--md {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.klik-logo-badge--sm {
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+/* Auth / Login Screen */
+.klik-auth-page {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.klik-auth-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.klik-auth-brand {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.klik-auth-brand .klik-logo-badge--lg {
+  margin: 0 auto;
+}
+
+.klik-auth-brand .klik-logo-badge--lg img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+}
+
+.klik-auth-brand h1 {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.klik-auth-brand p {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.klik-auth-card {
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  padding: 24px;
+}
+
+.klik-auth-card-head {
+  margin-bottom: 20px;
+}
+
+.klik-auth-card-head h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.klik-auth-card-head p {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.klik-auth-divider-links {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.klik-auth-switch-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: rgba(17, 18, 20, 0.8);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.klik-auth-switch-btn:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  color: var(--text-primary);
+}
+
+.klik-auth-subtle-link {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 6px;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.klik-auth-subtle-link:hover {
+  color: var(--text-body);
+}
+
+.klik-auth-back-btn {
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.klik-auth-back-btn:hover {
+  color: var(--text-primary);
+}
+
+.klik-help-box {
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-main);
+  padding: 12px 14px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.klik-help-box-title {
+  font-weight: 500;
+  color: var(--text-body);
+}
+
+/* Workspace Shell */
+.klik-shell {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+}
+
+/* Sidebar */
+.klik-sidebar-desktop {
+  display: none;
+  flex-shrink: 0;
+  transition: width 0.15s ease;
+  width: 252px;
+}
+
+.klik-sidebar-desktop.is-collapsed {
+  width: 68px;
+}
+
+.klik-sidebar-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.klik-sidebar-body {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  user-select: none;
+}
+
+.klik-sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px;
+}
+
+.klik-sidebar-brand.is-compact {
+  padding: 16px 12px;
+  justify-content: center;
+}
+
+.klik-sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.klik-sidebar-brand-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.klik-sidebar-brand-code {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.klik-sidebar-tagline {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+.klik-sidebar-expand-row {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.klik-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+}
+
+.klik-icon-btn--danger:hover {
+  color: var(--rose-text);
+}
+
+.klik-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.klik-nav-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  text-align: left;
+}
+
+.klik-nav-item.is-compact {
+  justify-content: center;
+}
+
+.klik-nav-item:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-body);
+}
+
+.klik-nav-item.is-active {
+  background-color: var(--bg-active);
+  color: var(--text-primary);
+}
+
+.klik-nav-item svg {
+  color: var(--text-dim);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.klik-nav-item:hover svg {
+  color: var(--text-muted);
+}
+
+.klik-nav-item.is-active svg {
+  color: var(--emerald-text);
+}
+
+.klik-sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 12px;
+}
+
+.klik-sidebar-user-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.klik-sidebar-user-row.is-compact {
+  flex-direction: column;
+}
+
+.klik-sidebar-user-info {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.klik-avatar {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-active);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.klik-sidebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.klik-sidebar-actions.is-compact {
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Mobile Sidebar Drawer */
+.klik-mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(2px);
+}
+
+.klik-mobile-drawer {
+  width: 264px;
+  max-width: 82vw;
+  height: 100%;
+}
+
+/* Main Column & Header */
+.klik-main-col {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.klik-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background-color: rgba(17, 18, 20, 0.95);
+  backdrop-filter: blur(4px);
+}
+
+.klik-header-inner {
+  margin: 0 auto;
+  display: flex;
+  height: 56px;
+  max-width: 1320px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.klik-header-left {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.klik-mobile-menu-btn {
+  border-radius: 6px;
+  padding: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.klik-mobile-menu-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+}
+
+.klik-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.klik-breadcrumb-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.klik-breadcrumb-sep,
+.klik-breadcrumb-meta {
+  display: none;
+}
+
+.klik-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.klik-header-pill-btn {
+  display: inline-flex;
+  height: 36px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface-elevated);
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-header-pill-btn:hover {
+  background-color: #20232a;
+  color: var(--text-primary);
+}
+
+.klik-header-pill-label {
+  display: none;
+}
+
+.klik-notif-wrap {
+  position: relative;
+}
+
+.klik-notif-btn {
+  position: relative;
+  display: flex;
+  height: 36px;
+  width: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-notif-btn:hover {
+  background-color: #20232a;
+  color: var(--text-primary);
+}
+
+.klik-notif-badge {
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  display: flex;
+  height: 16px;
+  min-width: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: var(--emerald);
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--emerald-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.klik-notif-popover {
+  position: absolute;
+  right: 0;
+  margin-top: 8px;
+  width: 320px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-surface-elevated);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  z-index: 40;
+}
+
+.klik-notif-popover-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 12px 16px;
+}
+
+.klik-notif-list {
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.klik-notif-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.15s;
+}
+
+.klik-notif-item:last-child {
+  border-bottom: none;
+}
+
+.klik-notif-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.klik-notif-item.is-unread {
+  background-color: rgba(29, 32, 38, 0.55);
+}
+
+.klik-notif-item.is-read {
+  opacity: 0.65;
+}
+
+/* Main Content Area */
+.klik-main {
+  flex: 1;
+}
+
+.klik-main-inner {
+  margin: 0 auto;
+  max-width: 1320px;
+  padding: 24px 16px;
+}
+
+/* Common Layout Primitives */
+.klik-stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.klik-stack-md {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.klik-stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.klik-stack-xs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.klik-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.klik-grid-form-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.klik-grid-form-2-resp {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.klik-grid-form-3-resp {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.klik-groups-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.klik-card {
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.klik-card--overflow-hidden {
+  overflow: hidden;
+}
+
+.klik-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 20px;
+}
+
+.klik-card-head--alt {
+  background-color: var(--bg-surface-alt);
+  padding: 10px 16px;
+}
+
+.klik-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.klik-card-body {
+  flex: 1;
+  padding: 20px;
+}
+
+.klik-card-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.klik-card-link-btn:hover {
+  color: var(--emerald-text);
+}
+
+.klik-divide-list > * {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.klik-divide-list > *:last-child {
+  border-bottom: none;
+}
+
+.klik-divide-pad > * {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.klik-divide-pad > *:first-child {
+  padding-top: 0;
+}
+
+.klik-divide-pad > *:last-child {
+  padding-bottom: 0;
+}
+
+/* Focus Panel on Dashboard */
+.klik-focus-card {
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-focus);
+  padding: 20px;
+}
+
+.klik-focus-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.klik-focus-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.klik-focus-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.klik-focus-countdown-col {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+  flex-shrink: 0;
+}
+
+.klik-focus-countdown {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Badges / Tags */
+.klik-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.klik-tag--mono {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.klik-tag--emerald {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--emerald-soft);
+}
+
+.klik-tag--amber {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--amber-text);
+}
+
+.klik-tag--rose {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: var(--rose-soft);
+}
+
+.klik-tag--neutral {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: var(--text-secondary);
+}
+
+/* Buttons */
+.klik-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.klik-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.klik-btn--primary {
+  background-color: var(--emerald);
+  color: var(--emerald-ink);
+  font-weight: 600;
+}
+
+.klik-btn--primary:hover:not(:disabled) {
+  background-color: var(--emerald-hover);
+}
+
+.klik-btn--lg {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.klik-btn--secondary {
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+}
+
+.klik-btn--secondary:hover:not(:disabled) {
+  background-color: #1e2229;
+  color: var(--text-primary);
+}
+
+.klik-btn--ghost-border {
+  border: 1px solid var(--border-strong);
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+
+.klik-btn--ghost-border:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.klik-btn--surface {
+  border: 1px solid var(--border-strong);
+  background-color: #20242b;
+  color: var(--text-body);
+}
+
+.klik-btn--surface:hover:not(:disabled) {
+  background-color: #282d36;
+}
+
+.klik-btn--emerald-outline {
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--emerald-soft);
+}
+
+.klik-btn--emerald-outline:hover:not(:disabled) {
+  background-color: rgba(16, 185, 129, 0.2);
+}
+
+.klik-btn--danger {
+  background-color: var(--rose-bg);
+  color: #fff;
+}
+
+.klik-btn--danger:hover:not(:disabled) {
+  background-color: #f43f5e;
+}
+
+.klik-btn--danger-outline {
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: var(--rose-soft);
+}
+
+.klik-btn--danger-outline:hover:not(:disabled) {
+  background-color: rgba(244, 63, 94, 0.1);
+}
+
+.klik-btn--danger-ghost {
+  color: var(--rose-text);
+}
+
+.klik-btn--danger-ghost:hover:not(:disabled) {
+  background-color: rgba(244, 63, 94, 0.1);
+}
+
+.klik-btn--sm {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.klik-btn--xs {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+/* Inputs & Forms */
+.klik-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.klik-input,
+.klik-select,
+.klik-textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-input);
+  padding: 8px 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.klik-input--dark {
+  background-color: var(--bg-main);
+}
+
+.klik-input--surface {
+  background-color: var(--bg-surface);
+  border-color: var(--border-default);
+}
+
+.klik-input--sm,
+.klik-select--sm,
+.klik-textarea--sm {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.klik-input::placeholder,
+.klik-textarea::placeholder {
+  color: var(--text-dim);
+}
+
+.klik-input:focus,
+.klik-select:focus,
+.klik-textarea:focus {
+  border-color: var(--border-focus);
+}
+
+.klik-input-wrap {
+  position: relative;
+}
+
+.klik-input-with-eye {
+  padding-right: 40px;
+}
+
+.klik-input-eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  padding: 4px;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.klik-input-eye-btn:hover {
+  color: var(--text-secondary);
+}
+
+.klik-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+
+.klik-search-wrap--full {
+  max-width: none;
+}
+
+.klik-search-icon {
+  pointer-events: none;
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+}
+
+.klik-search-input {
+  padding-left: 32px;
+  font-size: 12px;
+}
+
+.klik-alert {
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+
+.klik-alert--error {
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  background-color: rgba(244, 63, 94, 0.1);
+  color: var(--rose-soft);
+}
+
+.klik-alert--success {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--emerald-soft);
+}
+
+/* Toolbar */
+.klik-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.klik-toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Segmented controls / tabs */
+.klik-segmented {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  padding: 4px;
+  align-self: flex-start;
+}
+
+.klik-segmented-btn {
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-segmented-btn:hover {
+  color: var(--text-body);
+}
+
+.klik-segmented-btn.is-active {
+  background-color: var(--bg-tab-active);
+  color: var(--text-primary);
+}
+
+/* Empty State */
+.klik-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.09);
+  background-color: rgba(22, 24, 28, 0.6);
+  padding: 48px 24px;
+}
+
+.klik-empty--compact {
+  padding: 28px 16px;
+}
+
+.klik-empty-icon {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: #1d2026;
+  color: var(--text-muted);
+}
+
+.klik-empty h3 {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.klik-empty p {
+  margin-top: 4px;
+  max-width: 380px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Schedule Module */
+.klik-schedule-split {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.klik-week-nav {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  padding: 2px;
+}
+
+.klik-schedule-desktop {
+  display: none;
+  flex: 1;
+  min-width: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  overflow: hidden;
+}
+
+.klik-schedule-grid-head {
+  display: grid;
+  grid-template-columns: 56px repeat(7, minmax(0, 1fr));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background-color: var(--bg-surface-alt);
+}
+
+.klik-schedule-gutter-head {
+  border-right: 1px solid var(--border-subtle);
+  padding: 12px 0;
+  text-align: center;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+
+.klik-schedule-day-btn {
+  padding: 10px 6px;
+  text-align: center;
+  border-right: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.klik-schedule-day-btn:last-child {
+  border-right: none;
+}
+
+.klik-schedule-day-btn:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.klik-schedule-day-btn.is-selected {
+  background-color: #20242b;
+}
+
+.klik-day-num {
+  margin-top: 2px;
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+
+.klik-day-num.is-today {
+  background-color: var(--emerald);
+  font-weight: 600;
+  color: var(--emerald-ink);
+}
+
+.klik-day-num.is-selected {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.klik-schedule-grid-body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px repeat(7, minmax(0, 1fr));
+  overflow-y: auto;
+  max-height: 620px;
+}
+
+.klik-schedule-time-gutter {
+  border-right: 1px solid var(--border-subtle);
+  background-color: rgba(20, 22, 26, 0.6);
+}
+
+.klik-schedule-hour-label {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding-right: 8px;
+  padding-top: 4px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.klik-schedule-day-col {
+  position: relative;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.klik-schedule-day-col:last-child {
+  border-right: none;
+}
+
+.klik-schedule-day-col.is-selected {
+  background-color: rgba(255, 255, 255, 0.015);
+}
+
+.klik-schedule-slot {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.klik-schedule-slot.is-admin:hover {
+  background-color: rgba(16, 185, 129, 0.04);
+  cursor: pointer;
+}
+
+.klik-schedule-block {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: #21252c;
+  color: var(--text-primary);
+  padding: 6px 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.klik-schedule-block:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.klik-schedule-block.is-cancelled {
+  border-color: rgba(244, 63, 94, 0.3);
+  background-color: rgba(244, 63, 94, 0.07);
+  color: var(--text-muted);
+}
+
+.klik-schedule-block.is-ongoing {
+  border-color: rgba(16, 185, 129, 0.5);
+  background-color: rgba(16, 185, 129, 0.14);
+  color: var(--text-primary);
+}
+
+.klik-schedule-block.is-modified {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-color: rgba(245, 158, 11, 0.09);
+  color: var(--text-primary);
+}
+
+.klik-schedule-block.is-done {
+  border-color: rgba(255, 255, 255, 0.07);
+  background-color: rgba(30, 34, 41, 0.7);
+  color: var(--text-muted);
+}
+
+.klik-mobile-day-strip {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+  padding: 6px;
+}
+
+.klik-mobile-day-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  text-align: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-mobile-day-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+.klik-mobile-day-btn.is-selected {
+  background-color: var(--bg-tab-active);
+  color: var(--text-primary);
+}
+
+.klik-mobile-day-dot {
+  margin-top: 4px;
+  height: 4px;
+  width: 12px;
+  border-radius: 2px;
+  background-color: transparent;
+}
+
+.klik-mobile-day-dot.has-classes {
+  background-color: rgba(52, 211, 153, 0.7);
+}
+
+.klik-schedule-aside {
+  width: 100%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+}
+
+/* Task Planner */
+.klik-task-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.klik-task-row:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.klik-task-row.is-completed {
+  opacity: 0.6;
+}
+
+.klik-checkbox-box {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: var(--bg-main);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.klik-checkbox-box:hover:not(:disabled) {
+  border-color: var(--emerald-hover);
+}
+
+.klik-checkbox-box.is-checked {
+  border-color: var(--emerald);
+  background-color: var(--emerald);
+  color: var(--emerald-ink);
+}
+
+.klik-checkbox-box--sm {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+.klik-checkbox-box:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.klik-collapse-head {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.klik-collapse-head:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Announcements */
+.klik-ann-row {
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.klik-ann-row:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.klik-ann-row:hover .klik-ann-title {
+  color: var(--emerald-soft);
+}
+
+/* Group Organizer */
+.klik-group-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-surface);
+}
+
+.klik-group-card.is-mine {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.klik-group-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+}
+
+.klik-group-card-body {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.klik-group-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+  background-color: var(--bg-surface-alt);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.klik-list-row-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.klik-list-row-btn:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Modal */
+.klik-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.65);
+  padding: 16px;
+  backdrop-filter: blur(2px);
+}
+
+.klik-modal-dialog {
+  width: 100%;
+  max-width: 512px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-surface-elevated);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+}
+
+.klik-modal-dialog--md {
+  max-width: 448px;
+}
+
+.klik-modal-dialog--lg {
+  max-width: 512px;
+}
+
+.klik-modal-dialog--xl {
+  max-width: 576px;
+}
+
+.klik-modal-dialog--2xl {
+  max-width: 672px;
+}
+
+.klik-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 16px 20px;
+}
+
+.klik-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.klik-modal-subtitle {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.klik-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.klik-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 14px 20px;
+  background-color: #15171b;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.klik-subpanel {
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-input);
+  padding: 14px;
+}
+
+.klik-radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-input);
+  padding: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.klik-radio-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.klik-radio-card.is-selected {
+  border-color: rgba(16, 185, 129, 0.5);
+  background-color: rgba(16, 185, 129, 0.07);
+}
+
+/* Rich Text Editor & Content */
+.klik-rte-wrap {
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-input);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.klik-rte-wrap:focus-within {
+  border-color: var(--border-focus);
+}
+
+.klik-rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-default);
+  background-color: var(--bg-focus);
+  padding: 6px 8px;
+}
+
+.klik-rte-btn {
+  border-radius: 4px;
+  padding: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.klik-rte-btn:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: var(--text-primary);
+}
+
+.klik-rte-area {
+  min-height: 120px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-body);
+  outline: none;
+}
+
+.klik-rte-area:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-dim);
+}
+
+.klik-richtext h2,
+.klik-richtext h3 {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.klik-richtext h2 {
+  font-size: 1.05rem;
+}
+
+.klik-richtext h3 {
+  font-size: 0.95rem;
+}
+
+.klik-richtext p {
+  margin-bottom: 8px;
+}
+
+.klik-richtext ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.klik-richtext ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.klik-richtext li {
+  margin-bottom: 4px;
+}
+
+.klik-richtext b,
+.klik-richtext strong {
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+/* Roster & Dev modal lists */
+.klik-roster-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.klik-roster-scroll {
+  max-height: 280px;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-input);
+}
+
+.klik-dev-scroll {
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background-color: var(--bg-input);
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 640px) {
+  .klik-header-inner {
+    padding: 0 24px;
+  }
+  .klik-main-inner {
+    padding: 24px;
+  }
+  .klik-breadcrumb-sep,
+  .klik-breadcrumb-meta {
+    display: inline;
+  }
+  .klik-header-pill-label {
+    display: inline;
+  }
+  .klik-notif-popover {
+    width: 360px;
+  }
+  .klik-focus-card {
+    padding: 24px;
+  }
+  .klik-focus-title {
+    font-size: 24px;
+  }
+  .klik-focus-countdown {
+    font-size: 30px;
+  }
+  .klik-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .klik-grid-form-2-resp {
+    grid-template-columns: 1fr 1fr;
+  }
+  .klik-grid-form-3-resp {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .klik-roster-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .klik-col-3 {
+    grid-column: span 3;
+  }
+  .klik-col-4 {
+    grid-column: span 4;
+  }
+  .klik-col-2 {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .klik-focus-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .klik-focus-countdown-col {
+    flex-direction: column;
+    align-items: flex-end;
+    border-top: none;
+    padding-top: 0;
+  }
+  .klik-schedule-desktop {
+    display: block;
+  }
+  .klik-mobile-day-strip {
+    display: none;
+  }
+  .klik-groups-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .klik-sidebar-desktop {
+    display: block;
+  }
+  .klik-mobile-menu-btn,
+  .klik-mobile-drawer-backdrop {
+    display: none !important;
+  }
+  .klik-header-inner {
+    padding: 0 32px;
+  }
+  .klik-main-inner {
+    padding: 24px 32px;
+  }
+  .klik-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .klik-flex-lg-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .klik-schedule-split {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .klik-schedule-aside {
+    width: 340px;
+  }
+  .klik-groups-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

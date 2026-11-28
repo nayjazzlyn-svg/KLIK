@@ -1,0 +1,6 @@
+{
+  "name": "KLIK",
+  "description": "Kelola Informasi dan Kegiatan Kelas — Semua Aktivitas Kelas, Satu Klik.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
